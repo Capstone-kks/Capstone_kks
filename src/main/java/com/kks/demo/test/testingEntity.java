@@ -21,8 +21,7 @@ public class testingEntity {
     private String nickname;
 
     @Builder
-    public testingEntity(int testidx, String id, String nickname){
-        this.testidx = testidx;
+    public testingEntity(String id, String nickname){
         this.id = id;
         this.nickname =nickname;
     }
