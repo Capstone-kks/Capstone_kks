@@ -1,4 +1,4 @@
-package com.kks.demo.test.dto;
+package com.kks.demo.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

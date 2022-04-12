@@ -1,4 +1,4 @@
-package com.kks.demo;
+package com.kks.demo.test;
 
 import com.kks.demo.test.HelloController;
 import org.junit.Test;
