@@ -15,6 +15,6 @@ public class LoginService {
 
     @Transactional
     public int save(JoinRequestDto requestDto){
-        return loginRepository.save(requestDto.toEntity()).getUserindex();
+        return loginRepository.save(requestDto.toEntity()).getUserIndex();
     }
 }

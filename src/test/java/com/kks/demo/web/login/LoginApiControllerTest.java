@@ -43,14 +43,14 @@ public class LoginApiControllerTest {
     @Test
     public void Join() throws Exception {
         //give
-        String userid = "123";
-        String nickname = "123";
-        String userimg = "123";
+        String userId = "123";
+        String nickName = "123";
+        String userImg = "123";
 
         JoinRequestDto requestDto = JoinRequestDto.builder()
-                .userid(userid)
-                .nickname(nickname)
-                .userimg(userimg)
+                .userId(userId)
+                .nickName(nickName)
+                .userImg(userImg)
                 .build();
 
         String url = "http://localhost:" + port + "/api/login";
@@ -63,9 +63,9 @@ public class LoginApiControllerTest {
         assertThat(responseEntity.getBody()).isGreaterThan(0);
 
         List<LoginEntity> all = loginRepository.findAll();
-        assertThat(all.get(0).getUserid()).isEqualTo(userid);
-        assertThat(all.get(0).getNickname()).isEqualTo(nickname);
-        assertThat(all.get(0).getUserimg()).isEqualTo(userimg);
+        assertThat(all.get(0).getUserId()).isEqualTo(userId);
+        assertThat(all.get(0).getNickName()).isEqualTo(nickName);
+        assertThat(all.get(0).getUserImg()).isEqualTo(userImg);
 
     }
 }

@@ -14,16 +14,16 @@ public class LoginEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     //for auto increment
-    private int userindex;
+    private int userIndex;
 
-    private String userid;
-    private String nickname;
-    private String userimg;
+    private String userId;
+    private String nickName;
+    private String userImg;
 
     @Builder
-    public LoginEntity(String userid, String nickname, String userimg){
-        this.userid = userid;
-        this.nickname = nickname;
-        this.userimg = userimg;
+    public LoginEntity(String userId, String nickName, String userImg){
+        this.userId = userId;
+        this.nickName = nickName;
+        this.userImg = userImg;
     }
 }
