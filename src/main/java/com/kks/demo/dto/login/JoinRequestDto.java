@@ -1,6 +1,7 @@
 package com.kks.demo.dto.login;
 
 import com.kks.demo.domain.login.LoginEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class JoinRequestDto {
+
+    @ApiModelProperty(value = "ID", example = "steve", required = true)
     private String userId;
+
+    @ApiModelProperty(value = "NAME", example = "steve", required = true)
     private String nickName;
+
+    @ApiModelProperty(value = "IMAGE", example = "image link")
     private String userImg;
 
 

@@ -53,7 +53,8 @@ public class LoginApiControllerTest {
                 .userImg(userImg)
                 .build();
 
-        String url = "http://localhost:" + port + "/api/login";
+        String url = "http://localhost:" + port + "/test/api/login";
+        //String url = "http://54.180.169.133:" + port + "/api/login";
 
         //when
         ResponseEntity<Integer> responseEntity = restTemplate.postForEntity(url, requestDto, Integer.class);
