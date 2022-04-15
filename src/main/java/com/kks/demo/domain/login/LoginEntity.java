@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="User2")
+@Table(name="User")
 public class LoginEntity {
 
     @Id

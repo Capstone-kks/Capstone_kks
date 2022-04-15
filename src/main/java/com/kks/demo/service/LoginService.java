@@ -25,13 +25,9 @@ public class LoginService {
     private final LoginRepository loginRepository;
 
     @Transactional
-    public JoinRequestDto save(String userId, String nickName, String userImg){
-
-        //loginRepository.save(requestDto.toEntity());
-        //return loginRepository.save(requestDto.toEntity()).
-        //return responseEntity.getBody();
-        JoinRequestDto requestDto = new JoinRequestDto();
-        LoginEntity loginEntity = loginRepository.save(requestDto.toEntity());
-        return new JoinRequestDto(loginEntity.getUserId(), loginEntity.getNickName(), loginEntity.getUserImg());
+    public void save(JoinRequestDto requestDto){
+        if ( loginRepository.findByUserId(requestDto.getUserId()) == null) {
+            loginRepository.save(requestDto.toEntity());
+        }
     }
 }
