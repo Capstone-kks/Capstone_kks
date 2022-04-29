@@ -1,6 +1,6 @@
 package com.kks.demo.dto.login;
 
-import com.kks.demo.domain.login.Users;
+import com.kks.demo.domain.user.Users;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;

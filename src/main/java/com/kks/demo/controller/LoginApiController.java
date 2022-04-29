@@ -1,23 +1,14 @@
 package com.kks.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kks.demo.domain.login.Users;
-import com.kks.demo.domain.login.LoginRepository;
 import com.kks.demo.dto.login.JoinRequestDto;
+import com.kks.demo.dto.login.NicknameUpdateDto;
 import com.kks.demo.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,5 +30,12 @@ public class LoginApiController {
 
         return requestDto;
     }
+
+    @PutMapping(value="/login/updatename/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @JsonProperty("requestDto")
+    public String update(@PathVariable String userId, @RequestBody NicknameUpdateDto requestDto){
+        return loginService.update(userId, requestDto);
+    }
+
 
 }

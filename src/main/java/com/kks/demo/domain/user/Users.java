@@ -1,4 +1,4 @@
-package com.kks.demo.domain.login;
+package com.kks.demo.domain.user;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -25,5 +25,9 @@ public class Users {
         this.userId = userId;
         this.nickName = nickName;
         this.userImg = userImg;
+    }
+
+    public void update(String nickName){
+        this.nickName = nickName;
     }
 }
