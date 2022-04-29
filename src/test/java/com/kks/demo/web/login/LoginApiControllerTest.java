@@ -1,7 +1,7 @@
 package com.kks.demo.web.login;
 
 
-import com.kks.demo.domain.login.LoginEntity;
+import com.kks.demo.domain.login.Users;
 import com.kks.demo.domain.login.LoginRepository;
 import com.kks.demo.dto.login.JoinRequestDto;
 import org.junit.Test;
@@ -63,7 +63,7 @@ public class LoginApiControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isGreaterThan(0);
 
-        List<LoginEntity> all = loginRepository.findAll();
+        List<Users> all = loginRepository.findAll();
         assertThat(all.get(0).getUserId()).isEqualTo(userId);
         assertThat(all.get(0).getNickName()).isEqualTo(nickName);
         assertThat(all.get(0).getUserImg()).isEqualTo(userImg);

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name="User")
-public class LoginEntity {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)     //for auto increment
@@ -21,7 +21,7 @@ public class LoginEntity {
     private String userImg;
 
     @Builder
-    public LoginEntity(String userId, String nickName, String userImg){
+    public Users(String userId, String nickName, String userImg){
         this.userId = userId;
         this.nickName = nickName;
         this.userImg = userImg;

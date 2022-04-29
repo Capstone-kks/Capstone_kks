@@ -1,7 +1,7 @@
 package com.kks.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kks.demo.domain.login.LoginEntity;
+import com.kks.demo.domain.login.Users;
 import com.kks.demo.domain.login.LoginRepository;
 import com.kks.demo.dto.login.JoinRequestDto;
 import com.kks.demo.service.LoginService;

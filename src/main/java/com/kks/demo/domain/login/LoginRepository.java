@@ -1,11 +1,11 @@
 package com.kks.demo.domain.login;
 
-import com.kks.demo.domain.login.LoginEntity;
+import com.kks.demo.domain.login.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface LoginRepository extends JpaRepository <LoginEntity, Integer>{
+public interface LoginRepository extends JpaRepository <Users, Integer>{
 
-    LoginEntity findByUserId(String userId);
+    Users findByUserId(String userId);
 }

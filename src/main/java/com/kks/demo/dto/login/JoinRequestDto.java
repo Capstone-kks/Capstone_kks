@@ -1,6 +1,6 @@
 package com.kks.demo.dto.login;
 
-import com.kks.demo.domain.login.LoginEntity;
+import com.kks.demo.domain.login.Users;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,8 +27,8 @@ public class JoinRequestDto {
         this.userImg = userImg;
     }
 
-    public LoginEntity toEntity(){
-        return LoginEntity.builder()
+    public Users toEntity(){
+        return Users.builder()
                 .userId(userId)
                 .nickName(nickName)
                 .userImg(userImg)

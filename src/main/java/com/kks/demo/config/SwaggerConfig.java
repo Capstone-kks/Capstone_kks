@@ -21,6 +21,11 @@ import java.util.Set;
 /**
  * Swagger-Ui 사용을 위한 설정을 담당하는 클래스
  */
+
+/**
+ * http://localhost:8080/swagger-ui.html
+ */
+
 public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     @Override

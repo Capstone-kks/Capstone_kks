@@ -1,7 +1,7 @@
 package com.kks.demo.service;
 
 
-import com.kks.demo.domain.login.LoginEntity;
+import com.kks.demo.domain.login.Users;
 import com.kks.demo.dto.login.JoinRequestDto;
 import com.kks.demo.domain.login.LoginRepository;
 import lombok.RequiredArgsConstructor;
