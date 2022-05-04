@@ -2,6 +2,7 @@ package com.kks.demo.service;
 
 
 import com.kks.demo.domain.user.Users;
+import com.kks.demo.dto.login.ImageUpdateDto;
 import com.kks.demo.dto.login.JoinRequestDto;
 import com.kks.demo.domain.user.LoginRepository;
 import com.kks.demo.dto.login.NicknameUpdateDto;
@@ -32,4 +33,14 @@ public class LoginService {
 
         return userId;
     }
+
+    @Transactional
+    public String update2(String userId, ImageUpdateDto reqeustDto){
+        Users users = loginRepository.findByUserId(userId);
+        users.update2(reqeustDto.getUserImg());
+
+        return userId;
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.kks.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kks.demo.dto.login.ImageUpdateDto;
 import com.kks.demo.dto.login.JoinRequestDto;
 import com.kks.demo.dto.login.NicknameUpdateDto;
 import com.kks.demo.service.LoginService;
@@ -31,10 +32,16 @@ public class LoginApiController {
         return requestDto;
     }
 
-    @PutMapping(value="/login/updatename/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value="/login/updatename/userId={userId}", produces=MediaType.APPLICATION_JSON_VALUE)
     @JsonProperty("requestDto")
-    public String update(@PathVariable String userId, @RequestBody NicknameUpdateDto requestDto){
+    public String updateName(@PathVariable String userId, @RequestBody NicknameUpdateDto requestDto){
         return loginService.update(userId, requestDto);
+    }
+
+    @PutMapping(value="/login/updateimage/userId={userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @JsonProperty("requestDto")
+    public String updateImg(@PathVariable String userId, @RequestBody ImageUpdateDto requestDto){
+        return loginService.update2(userId, requestDto);
     }
 
 
