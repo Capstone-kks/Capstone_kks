@@ -6,10 +6,14 @@ import com.kks.demo.dto.login.ImageUpdateDto;
 import com.kks.demo.dto.login.JoinRequestDto;
 import com.kks.demo.domain.user.LoginRepository;
 import com.kks.demo.dto.login.NicknameUpdateDto;
+import com.kks.demo.dto.login.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,5 +46,13 @@ public class LoginService {
         return userId;
     }
 
+    public UserResponseDto findByUserId (String userId) {
+        Users users = loginRepository.findByUserId(userId);
+        //.orElseThrow(()->new IllegalArgumentException("해당 Id 정보가 없음"))
+        //UserResponseDto us = new UserResponseDto(users);
+        //System.out.print(us);
+        return new UserResponseDto(users);
+        //return us;
+    }
 
 }

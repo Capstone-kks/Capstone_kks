@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kks.demo.dto.login.ImageUpdateDto;
 import com.kks.demo.dto.login.JoinRequestDto;
 import com.kks.demo.dto.login.NicknameUpdateDto;
+import com.kks.demo.dto.login.UserResponseDto;
 import com.kks.demo.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,20 @@ public class LoginApiController {
     @JsonProperty("requestDto")
     public String updateImg(@PathVariable String userId, @RequestBody ImageUpdateDto requestDto){
         return loginService.update2(userId, requestDto);
+    }
+
+    //@GetMapping(value="/login/get/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/login/get", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    //public UserResponseDto findByUserId (@PathVariable String userId){
+    public UserResponseDto findByUserId (@RequestParam String userId){
+        System.out.println("아이디:"+userId);
+        return loginService.findByUserId(userId);
+    }
+
+    @GetMapping(value="/test", produces=MediaType.APPLICATION_JSON_VALUE)
+    public String test(@RequestParam String testing){
+        return testing;
     }
 
 
