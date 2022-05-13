@@ -30,6 +30,14 @@ public class RecordApiController {
         return recordService.CountAllbyCat(userId);
     }
 
+    @GetMapping(value="/countmonth", produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    //public long CountAllbyCat (@RequestParam String userId, @RequestParam int categoryId){
+    public String CountMonthbyCat (@RequestParam String userId, @RequestParam String postDate){
+        //System.out.println("아이디:"+userId);
+        return recordService.CountMonthbyCat(userId, postDate);
+    }
+
     @PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
     @JsonProperty("requestDto")
     public RecordSaveDto save(@RequestBody RecordSaveDto requestDto){

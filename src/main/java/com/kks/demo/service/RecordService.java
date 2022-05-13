@@ -37,6 +37,20 @@ public class RecordService {
     }
 
     @Transactional
+    public String CountMonthbyCat(String userId, String postDate){
+        String result = "";
+
+        for (int i=0;i<8;i++){
+            long num = recordRepository.countByUserIdAndCategoryIdAndPostDateStartsWith(userId, categories[i], postDate);
+            //long num = recordRepository.countByUserIdAndCategoryId(userId, categoryId);
+
+            result += Long.toString(num);
+            result += ",";
+        }
+        return result;
+    }
+
+    @Transactional
     public void save(RecordSaveDto requestDto){
             recordRepository.save(requestDto.toEntity());
     }
@@ -46,7 +60,7 @@ public class RecordService {
         //List<Records> records = recordRepository.findByTitleAndContent(keyword);
         //return list(new SearchResponseDto(records));
 
-        return recordRepository.findByTitleOrContentContains(keyword, keyword).stream()
+        return recordRepository.findByTitleContainsOrContentContains(keyword, keyword).stream()
                 .map(SearchResponseDto::new)
                 .collect(Collectors.toList());
     }
