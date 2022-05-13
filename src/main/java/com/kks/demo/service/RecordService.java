@@ -1,11 +1,17 @@
 package com.kks.demo.service;
 
 import com.kks.demo.domain.record.RecordRepository;
-import com.kks.demo.domain.user.LoginRepository;
+import com.kks.demo.domain.record.Records;
+import com.kks.demo.dto.login.JoinRequestDto;
+import com.kks.demo.dto.record.RecordSaveDto;
+import com.kks.demo.dto.record.SearchResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -28,5 +34,20 @@ public class RecordService {
             result += ",";
         }
         return result;
+    }
+
+    @Transactional
+    public void save(RecordSaveDto requestDto){
+            recordRepository.save(requestDto.toEntity());
+    }
+
+    public List<SearchResponseDto> SearchByKeyword (String keyword){
+        //List<SearchResponseDto> list = new ArrayList<>();
+        //List<Records> records = recordRepository.findByTitleAndContent(keyword);
+        //return list(new SearchResponseDto(records));
+
+        return recordRepository.findByTitleOrContentContains(keyword, keyword).stream()
+                .map(SearchResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
