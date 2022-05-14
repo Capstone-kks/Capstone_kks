@@ -64,4 +64,9 @@ public class RecordService {
                 .map(SearchResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    public SearchResponseDto SearchByUserRecord (int recordIdx, String userId){
+        Records records = recordRepository.findByRecordIdxAndUserId(recordIdx, userId);
+        return new SearchResponseDto(records);
+    }
 }
