@@ -25,4 +25,6 @@ public class RecordApiController {
         //System.out.println("아이디:"+userId);
         return recordService.CountAllbyCat(userId);
     }
+
+
 }
