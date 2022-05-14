@@ -6,6 +6,7 @@ import com.kks.demo.dto.login.JoinRequestDto;
 import com.kks.demo.dto.login.NicknameUpdateDto;
 import com.kks.demo.dto.login.UserResponseDto;
 import com.kks.demo.service.LoginService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class LoginApiController {
 
     HttpStatus resultStatus = HttpStatus.OK;   // 기본적으로 정상적으로 조회가 된다는 가정하에 반환하는 HTTP Status 값은 200 (OK) 입니다.
 
+    @ApiOperation(value="회원 등록", notes="회원 등록")
     @PostMapping(value="/login", produces=MediaType.APPLICATION_JSON_VALUE)
     @JsonProperty("requestDto")
     public JoinRequestDto save(@RequestBody JoinRequestDto requestDto){
@@ -33,18 +35,21 @@ public class LoginApiController {
         return requestDto;
     }
 
+    @ApiOperation(value="회원정보 - 닉네임 수정", notes="닉네임 수정.")
     @PutMapping(value="/login/updatename/userId={userId}", produces=MediaType.APPLICATION_JSON_VALUE)
     @JsonProperty("requestDto")
     public String updateName(@PathVariable String userId, @RequestBody NicknameUpdateDto requestDto){
         return loginService.update(userId, requestDto);
     }
 
+    @ApiOperation(value="회원정보 - 닉네임 수정", notes="닉네임 수정.")
     @PutMapping(value="/login/updateimage/userId={userId}", produces=MediaType.APPLICATION_JSON_VALUE)
     @JsonProperty("requestDto")
     public String updateImg(@PathVariable String userId, @RequestBody ImageUpdateDto requestDto){
         return loginService.update2(userId, requestDto);
     }
 
+    @ApiOperation(value="회원정보 가져오기", notes="개인 단위로 회원 정보 가져오기")
     //@GetMapping(value="/login/get/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value="/login/get", produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

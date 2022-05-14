@@ -32,7 +32,7 @@ public class Records {
     private int commentCount;
 
     @Builder
-    Records(String userId,  String title, int categoryId,
+    public Records(String userId,  String title, int categoryId,
                   int rate, String content, int postPublic,
                   String imgUrl, String postDate, int commentCount){
         this.userId = userId;

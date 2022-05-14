@@ -7,6 +7,7 @@ import com.kks.demo.dto.login.JoinRequestDto;
 import com.kks.demo.domain.user.LoginRepository;
 import com.kks.demo.dto.login.NicknameUpdateDto;
 import com.kks.demo.dto.login.UserResponseDto;
+import com.kks.demo.dto.record.SearchResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +55,4 @@ public class LoginService {
         return new UserResponseDto(users);
         //return us;
     }
-
 }
