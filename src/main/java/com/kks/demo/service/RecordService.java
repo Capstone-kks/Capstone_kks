@@ -1,8 +1,12 @@
 package com.kks.demo.service;
 
+import com.kks.demo.config.BaseException;
+import com.kks.demo.config.BaseResponseStatus;
 import com.kks.demo.domain.record.RecordRepository;
 import com.kks.demo.domain.record.Records;
 import com.kks.demo.dto.login.JoinRequestDto;
+
+import com.kks.demo.dto.record.RecordDao;
 import com.kks.demo.dto.record.RecordSaveDto;
 import com.kks.demo.dto.record.SearchResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,8 @@ import java.util.stream.Collectors;
 public class RecordService {
 
     private final RecordRepository recordRepository;
+
+    private final RecordDao recordDao;
 
     //카테고리 순서 : 공연 도서 드라마 연/뮤 영화 음악 전시 기타
     int[] categories = {1, 10, 11, 12, 13, 14, 15, 16};
@@ -50,9 +56,22 @@ public class RecordService {
         return result;
     }
 
-    @Transactional
-    public void save(RecordSaveDto requestDto){
-            recordRepository.save(requestDto.toEntity());
+//    @Transactional
+//    public void save(RecordSaveDto requestDto){
+//            recordRepository.save(requestDto.toEntity());
+//    }
+
+    // 게시글 작성
+    public String postRecord(RecordSaveDto requestDto)throws BaseException {
+        try{
+            String result=recordDao.postRecord(requestDto);
+            return result;
+
+
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        }
     }
 
     public List<SearchResponseDto> SearchByKeyword (String keyword){

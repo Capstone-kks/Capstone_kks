@@ -1,6 +1,8 @@
 package com.kks.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kks.demo.config.BaseException;
+import com.kks.demo.config.BaseResponse;
 import com.kks.demo.dto.record.RecordSaveDto;
 import com.kks.demo.dto.record.SearchResponseDto;
 import com.kks.demo.service.RecordService;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,19 +45,34 @@ public class RecordApiController {
         return recordService.CountMonthbyCat(userId, postDate);
     }
 
-    @ApiOperation(value="기록 작성", notes="기록 작성")
-    @PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
-    @JsonProperty("requestDto")
-    public RecordSaveDto save(@RequestBody RecordSaveDto requestDto){
-        recordService.save(requestDto);
+//    @ApiOperation(value="기록 작성", notes="기록 작성")
+//    @PostMapping(value="/save", produces=MediaType.APPLICATION_JSON_VALUE)
+//    @JsonProperty("requestDto")
+//    public RecordSaveDto save(@RequestBody RecordSaveDto requestDto){
+//        recordService.save(requestDto);
+//
+//        return requestDto;
+//    }
 
-        return requestDto;
+    @ApiOperation(value="기록 작성", notes="기록 작성")
+    @ResponseBody
+    @PostMapping(value="/save")
+    @Transactional(rollbackFor = Exception.class)
+    public BaseResponse<String> save(@RequestBody RecordSaveDto requestDto){
+        try{
+            String result = recordService.postRecord(requestDto);
+            return new BaseResponse<>(result);
+        }catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+
     }
 
     @ApiOperation(value="검색", notes="parameter keyword가 제목이나 내용에 들어있는 Record Entity들을 리스트로 반환")
     @GetMapping(value="/search/keyword", produces=MediaType.APPLICATION_JSON_VALUE)
     public List<SearchResponseDto> findByTitleAndContent(@RequestParam String keyword){
-    //public String findByTitleAndContent(@RequestParam String keyword, Model model){
+        //public String findByTitleAndContent(@RequestParam String keyword, Model model){
         System.out.println("키워드:"+keyword);
         List<SearchResponseDto> searchList = recordService.SearchByKeyword(keyword);
         //model.addAttribute(searchList);
@@ -68,4 +86,6 @@ public class RecordApiController {
     public SearchResponseDto SearchByUserRecord(@RequestParam int recordIdx, @RequestParam String userId){
         return recordService.SearchByUserRecord(recordIdx, userId);
     }
+
+
 }
