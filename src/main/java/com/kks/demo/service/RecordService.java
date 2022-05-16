@@ -4,16 +4,15 @@ import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponseStatus;
 import com.kks.demo.domain.record.RecordRepository;
 import com.kks.demo.domain.record.Records;
-import com.kks.demo.dto.login.JoinRequestDto;
 
-import com.kks.demo.dto.record.RecordDao;
+import com.kks.demo.dao.record.RecordDao;
+import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.RecordSaveDto;
 import com.kks.demo.dto.record.SearchResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,4 +87,21 @@ public class RecordService {
         Records records = recordRepository.findByRecordIdxAndUserId(recordIdx, userId);
         return new SearchResponseDto(records);
     }
+
+
+    /**
+     * 글 (세부내용)조회 API
+     */
+    public List<GetDetailRecordRes> getDetailRecord(int recordIdx) throws BaseException{
+        try{
+            List<GetDetailRecordRes> getDetailRecordRes = recordDao.getDetailRecord(recordIdx);
+            return getDetailRecordRes;
+
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        }
+    }
+
+
 }

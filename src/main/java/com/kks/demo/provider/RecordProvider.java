@@ -1,7 +1,7 @@
 package com.kks.demo.provider;
 
 
-import com.kks.demo.dto.record.RecordDao;
+import com.kks.demo.dao.record.RecordDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

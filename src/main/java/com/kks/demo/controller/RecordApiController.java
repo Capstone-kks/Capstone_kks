@@ -3,6 +3,7 @@ package com.kks.demo.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponse;
+import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.RecordSaveDto;
 import com.kks.demo.dto.record.SearchResponseDto;
 import com.kks.demo.service.RecordService;
@@ -85,6 +86,21 @@ public class RecordApiController {
     @ResponseBody
     public SearchResponseDto SearchByUserRecord(@RequestParam int recordIdx, @RequestParam String userId){
         return recordService.SearchByUserRecord(recordIdx, userId);
+    }
+
+
+    /**
+     * 글 (세부내용)조회 API
+     */
+    @ResponseBody
+    @GetMapping(value="/{recordIdx}")
+    public BaseResponse<List<GetDetailRecordRes>> getDetailRecord(@PathVariable("recordIdx") int recordIdx){
+        try{
+            List<GetDetailRecordRes> getDetailRecordRes = recordService.getDetailRecord(recordIdx);
+            return new BaseResponse<>(getDetailRecordRes);
+        }catch (BaseException exception){
+            return new BaseResponse<>(exception.getStatus());
+        }
     }
 
 
