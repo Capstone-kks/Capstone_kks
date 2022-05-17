@@ -1,5 +1,7 @@
 package com.kks.demo.dao.record;
 
+import com.kks.demo.dto.like.PostLikeReq;
+import com.kks.demo.dto.like.PostLikeRes;
 import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.GetRecordListRes;
 import com.kks.demo.dto.record.RecordSaveDto;
@@ -80,4 +82,56 @@ public class RecordDao {
 //        // 그게 true이면 로그인한 유저가 팔로우한 사람들이 글만 볼 수 있도록 하고
 //        // false이면 그냥 최신순 인기순만 고려
 //    }
+
+
+    /**
+     * 글 좋아요 관련
+     */
+
+    // 해당 질문이 존재하는지 여부
+    public int likeRecordIdxExist(int getRecordIdx){
+        String checkLikeRecordQuery="SELECT EXISTS(SELECT recordIdx from Record where recordIdx=?)";
+        return this.jdbcTemplate.queryForObject(checkLikeRecordQuery,int.class,getRecordIdx);
+    }
+
+    // 좋아요 상태
+    public int getLikeStatus(PostLikeReq postLikeReq){
+        String getLikeStatusQuery = "SELECT\n" +
+                "        distinct CASE\n" +
+                "            WHEN EXISTS(SELECT userId, recordIdx from RecordLike where userId = ? AND recordIdx = ? AND status = 'ACTIVE')= '1' then 2\n" +
+                "            WHEN EXISTS(SELECT userId, recordIdx from RecordLike where userId = ? AND recordIdx = ? AND status = 'INACTIVE')= '1' then 3\n" +
+                "            ELSE 1 END\n" +
+                "FROM RecordLike ql\n" +
+                "right join Record q on ql.recordIdx = q.recordIdx";
+
+        Object[] getLikeStatParams = new Object[]{postLikeReq.getUserId(),postLikeReq.getRecordIdx(),
+                postLikeReq.getUserId(),postLikeReq.getRecordIdx()};
+        return this.jdbcTemplate.queryForObject(getLikeStatusQuery,int.class,getLikeStatParams);
+    }
+
+    public String createRecordLike(PostLikeReq postLikeReq, int status){
+        Object[] createRecordLikeParams=new Object[]{postLikeReq.getRecordIdx(),postLikeReq.getUserId()};
+        String result;
+        switch (status){
+            case 1:// 최초 좋아요
+                String createRecordLikeQuery = "INSERT INTO RecordLike(recordIdx,userId) VALUES(?,?)";
+                this.jdbcTemplate.update(createRecordLikeQuery,createRecordLikeParams);
+                result=new String("해당 글을 좋아요 했습니다.");
+                return result;
+            case 2: // 좋아요 취소
+                String changeToInActiveQuery= "UPDATE RecordLike\n"+
+                        "SET status='INACTIVE'\n"+
+                        "WHERE recordIdx=? AND userId=?";
+                this.jdbcTemplate.update(changeToInActiveQuery,createRecordLikeParams);
+                return new String("해당 글을 좋아요 취소했습니다.");
+            default: // 3
+                String changeToActiveQuery="UPDATE RecordLike\n"+
+                        "SET status='ACTIVE'\n"+
+                        "WHERE recordIdx=? AND userId=?";
+                this.jdbcTemplate.update(changeToActiveQuery,createRecordLikeParams);
+                return "해당 글을 다시 좋아요 했습니다.";
+
+        }
+    }
+
 }

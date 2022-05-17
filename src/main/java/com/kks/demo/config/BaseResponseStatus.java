@@ -31,6 +31,7 @@ public enum BaseResponseStatus {
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
 
+    GET_QUESTIONS_EMPTY_DATA(false, 2502, "존재하지 않는 질문입니다"),
 
     /**
      * 3000 : Response 오류
@@ -57,8 +58,6 @@ public enum BaseResponseStatus {
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
 
 
-    // 5000 : 필요시 만들어서 쓰세요
-    // 6000 : 필요시 만들어서 쓰세요
 
 
     private final boolean isSuccess;

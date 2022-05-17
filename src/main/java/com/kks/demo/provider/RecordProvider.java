@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 
-//Provider : Read의 비즈니스 로직 처리
-@Service    // [Business Layer에서 Service를 명시하기 위해서 사용] 비즈니스 로직이나 respository layer 호출하는 함수에 사용된다.
-            // [Business Layer]는 컨트롤러와 데이터 베이스를 연결
+@Service
 /**
  * Provider란?
  * Controller에 의해 호출되어 실제 비즈니스 로직과 트랜잭션을 처리: Read의 비즈니스 로직 처리
