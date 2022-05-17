@@ -15,4 +15,6 @@ public interface RecordRepository extends JpaRepository<Records, Integer> {
 
     Records findByRecordIdxAndUserId(int recordIdx, String userId);
 
+    List<Records> findByUserIdAndCategoryId(String userId, int categoryId);
+
 }
