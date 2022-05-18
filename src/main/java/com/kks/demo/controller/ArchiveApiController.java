@@ -1,6 +1,7 @@
 package com.kks.demo.controller;
 
 import com.kks.demo.dto.record.ResponseListbyCategoryDto;
+import com.kks.demo.dto.record.SearchResponseDto;
 import com.kks.demo.service.ArchiveService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,15 @@ public class ArchiveApiController {
 
         return searchList;
     }
+
+    @ApiOperation(value="아카이브검색", notes="category가 같고, parameter keyword가 제목이나 내용에 들어있는 Record Entity들을 리스트로 반환")
+    @GetMapping(value="/search", produces=MediaType.APPLICATION_JSON_VALUE)
+    public List<SearchResponseDto> SearchByCatKeyword(@RequestParam String userId, @RequestParam int categoryId, @RequestParam String keyword){
+        List<SearchResponseDto> searchList = archiveService.SearchByCatKeyword(userId, categoryId, keyword);
+
+        return searchList;
+    }
+
 
 
 

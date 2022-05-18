@@ -13,6 +13,9 @@ public interface RecordRepository extends JpaRepository<Records, Integer> {
     //List<Records> findByTitleOrContentContains(String keyword, String keyword2);
     List<Records> findByTitleContainsOrContentContains(String keyword, String keyword2);
 
+    //for archive search
+    List<Records> findByUserIdAndCategoryIdAndTitleContainsOrContentContains(String userId, int categoryId, String keyword, String keyword2);
+
     Records findByRecordIdxAndUserId(int recordIdx, String userId);
 
     List<Records> findByUserIdAndCategoryId(String userId, int categoryId);
