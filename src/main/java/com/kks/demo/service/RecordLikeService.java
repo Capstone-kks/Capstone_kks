@@ -4,7 +4,6 @@ import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponseStatus;
 import com.kks.demo.dao.record.RecordDao;
 import com.kks.demo.dto.like.PostLikeReq;
-import com.kks.demo.dto.like.PostLikeRes;
 import com.kks.demo.provider.RecordLikeProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,16 +1,13 @@
 package com.kks.demo.dao.record;
 
 import com.kks.demo.dto.like.PostLikeReq;
-import com.kks.demo.dto.like.PostLikeRes;
 import com.kks.demo.dto.record.GetDetailRecordRes;
-import com.kks.demo.dto.record.GetRecordListRes;
 import com.kks.demo.dto.record.RecordSaveDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -109,6 +106,7 @@ public class RecordDao {
         return this.jdbcTemplate.queryForObject(getLikeStatusQuery,int.class,getLikeStatParams);
     }
 
+    // 반복 좋아요 처리
     public String createRecordLike(PostLikeReq postLikeReq, int status){
         Object[] createRecordLikeParams=new Object[]{postLikeReq.getRecordIdx(),postLikeReq.getUserId()};
         String result;
@@ -124,7 +122,7 @@ public class RecordDao {
                         "WHERE recordIdx=? AND userId=?";
                 this.jdbcTemplate.update(changeToInActiveQuery,createRecordLikeParams);
                 return new String("해당 글을 좋아요 취소했습니다.");
-            default: // 3
+            default: // 3 (다시 좋아요)
                 String changeToActiveQuery="UPDATE RecordLike\n"+
                         "SET status='ACTIVE'\n"+
                         "WHERE recordIdx=? AND userId=?";
