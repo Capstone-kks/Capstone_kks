@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponse;
 import com.kks.demo.dto.record.GetDetailRecordRes;
+import com.kks.demo.dto.record.GetFeedRecordRes;
 import com.kks.demo.dto.record.RecordSaveDto;
 import com.kks.demo.dto.record.SearchResponseDto;
 import com.kks.demo.service.RecordService;
@@ -91,6 +92,7 @@ public class RecordApiController {
 
     /**
      * 글 (세부내용)조회 API
+     * [GET] /api/record/:recordIdx
      */
     @ResponseBody
     @GetMapping(value="/{recordIdx}")
@@ -105,9 +107,20 @@ public class RecordApiController {
 
     /**
      * 피드 글 목록 API
+     * [GET] /api/record/all?loginUserId=&sort=&isFollowCheck=
      */
-    @GetMapping(value="/all?")
-    public BaseResponse<List<GetFeedRecordRes>>
+    @ResponseBody
+    @GetMapping(value="/all")
+    public BaseResponse<List<GetFeedRecordRes>> getFeedList(@RequestParam String loginUserId,@RequestParam(defaultValue = "1") int sort,@RequestParam(defaultValue = "false") boolean isFollowCheck)
+    {
+        try{
+            List<GetFeedRecordRes> getFeedRecordRes = recordService.getFeedList(loginUserId,sort,isFollowCheck);
+            return new BaseResponse<>(getFeedRecordRes);
+        } catch (BaseException e) {
+            return new BaseResponse<>((e.getStatus()));
+        }
+
+    }
 
 
 
