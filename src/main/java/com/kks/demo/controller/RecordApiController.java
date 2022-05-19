@@ -106,9 +106,9 @@ public class RecordApiController {
     /**
      * 피드 글 목록 API
      */
-//    @GetMapping(value="/all?")
-//    public BaseResponse<>
-//
+    @GetMapping(value="/all?")
+    public BaseResponse<List<GetFeedRecordRes>>
+
 
 
 }
