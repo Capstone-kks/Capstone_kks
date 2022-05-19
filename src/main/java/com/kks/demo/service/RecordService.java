@@ -7,6 +7,7 @@ import com.kks.demo.domain.record.Records;
 
 import com.kks.demo.dao.record.RecordDao;
 import com.kks.demo.dto.record.GetDetailRecordRes;
+import com.kks.demo.dto.record.GetFeedRecordRes;
 import com.kks.demo.dto.record.RecordSaveDto;
 import com.kks.demo.dto.record.SearchResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.kks.demo.config.BaseResponseStatus.DATABASE_ERROR;
+
 
 @RequiredArgsConstructor
 @Service
@@ -69,7 +73,7 @@ public class RecordService {
 
         }catch (Exception exception){
             exception.printStackTrace();
-            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 
@@ -99,8 +103,22 @@ public class RecordService {
 
         }catch (Exception exception){
             exception.printStackTrace();
-            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+            throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    /**
+     * 피드 목록 조회 API
+     */
+    public List<GetFeedRecordRes> getFeedList(String loginUserId,int sort,boolean isFollowCheck) throws BaseException{
+        try{
+            List<GetFeedRecordRes> getFeedRecordRes = recordDao.getFeedListByCondition(loginUserId,sort,isFollowCheck);
+            return getFeedRecordRes;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 
 

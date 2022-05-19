@@ -4,7 +4,6 @@ package com.kks.demo.controller;
 import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponse;
 import com.kks.demo.dto.like.PostLikeReq;
-import com.kks.demo.dto.like.PostLikeRes;
 import com.kks.demo.service.RecordLikeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
