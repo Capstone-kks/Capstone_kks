@@ -35,4 +35,12 @@ public class ArchiveService {
         }
         return newlist;
     }
+
+    public List<SearchResponseDto> SearchByCatKeyword (String userId, int categoryid, String keyword){
+
+        return recordRepository.findByUserIdAndCategoryIdAndTitleContainsOrContentContains(userId, categoryid, keyword, keyword).stream()
+                .map(SearchResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 }
