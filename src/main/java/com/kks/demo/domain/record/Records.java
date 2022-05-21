@@ -22,7 +22,7 @@ public class Records {
     private String title;
 
     private int categoryId;
-    private int rate;
+    private float rate;
     private String content;
     private int postPublic;
 
@@ -33,7 +33,7 @@ public class Records {
 
     @Builder
     public Records(String userId,  String title, int categoryId,
-                  int rate, String content, int postPublic,
+                  float rate, String content, int postPublic,
                   String imgUrl, String postDate, int commentCount){
         this.userId = userId;
         this.title = title;
