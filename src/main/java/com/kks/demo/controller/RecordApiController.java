@@ -136,11 +136,18 @@ public class RecordApiController {
     }
 
 
-//    }
-
     /**
      * 글 삭제 API
      */
+    @DeleteMapping("/deletion/{userId}/{recordIdx}")
+    public BaseResponse<String> deleteRecord(@PathVariable("userId") String userId,@PathVariable("recordIdx") int recordIdx){
+        try{
+            String result = recordService.deleteRecord(userId,recordIdx);
+            return new BaseResponse<>(result);
+        }catch (BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 
 }

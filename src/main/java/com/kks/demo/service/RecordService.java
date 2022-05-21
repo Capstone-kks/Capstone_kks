@@ -130,4 +130,18 @@ public class RecordService {
         }
     }
 
+    /**
+     * 글 삭제 API
+     */
+    public String deleteRecord(String userId,int recordIdx) throws BaseException{
+        try{
+            String result = recordDao.deleteRecord(userId,recordIdx);
+            return result;
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+
 }

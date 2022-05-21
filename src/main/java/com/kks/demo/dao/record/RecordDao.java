@@ -78,6 +78,25 @@ public class RecordDao {
     }
 
 
+    /**
+     * 글 삭제 API
+     */
+    public String deleteRecord(String userId, int recordIdx ){
+        String deleteRecordQuery = "DELETE FROM Record WHERE recordIdx=?";
+        int deleteRecordParam = recordIdx;
+        this.jdbcTemplate.update(deleteRecordQuery,deleteRecordParam);
+        return new String("해당 글을 삭제했습니다.");
+
+    }
+
+
+    /**
+     * 사용자 인증(확인) 처리
+     */
+    //todo 나중에 시간나면...
+
+
+
 
 
     /**
@@ -211,6 +230,5 @@ public class RecordDao {
 
 
     }
-
 
 }
