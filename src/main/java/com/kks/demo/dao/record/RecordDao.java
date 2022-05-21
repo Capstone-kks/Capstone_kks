@@ -3,6 +3,7 @@ package com.kks.demo.dao.record;
 import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.GetFeedRecordRes;
+import com.kks.demo.dto.record.ModifyRecordReq;
 import com.kks.demo.dto.record.RecordSaveDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,11 +30,11 @@ public class RecordDao {
 
 
         String InsertQueQuery = "INSERT INTO Record(userId,title,\n" +
-                "                     categoryId,rate,content,postPublic,imgUrl,postDate,commentCount)\n" +
-                "                     VALUES (?,?,?,?,?,?,?,?,?)";
+                "                     categoryId,rate,content,postPublic,imgUrl,commentCount)\n" +
+                "                     VALUES (?,?,?,?,?,?,?,?)";
         Object[] InsertQueParams = new Object[]{requestDto.getUserId(), requestDto.getTitle(),
                requestDto.getCategoryId(),requestDto.getRate(),requestDto.getContent(),requestDto.getPostPublic(),
-        requestDto.getImgUrl(),requestDto.getPostDate(),requestDto.getCommentCount()};
+        requestDto.getImgUrl(),requestDto.getCommentCount()};
         this.jdbcTemplate.update(InsertQueQuery, InsertQueParams);
 
         return new String("게시글을 작성했습니다.");
@@ -65,7 +66,16 @@ public class RecordDao {
     /**
      * 글 수정 API
      */
-    //todo
+
+    public String updateRecord(String userId, int recordIdx, ModifyRecordReq modifyRecordReq){
+
+        String modifyRecordQuery = "UPDATE Record set title=?, categoryId=?, rate=?, content=?,postPublic=?,imgUrl=? where recordIdx=?";
+        Object[] modifyRecordParams=new Object[]{modifyRecordReq.getTitle(),modifyRecordReq.getCategoryId(),modifyRecordReq.getRate(),
+        modifyRecordReq.getContent(),modifyRecordReq.getPostPublic(),modifyRecordReq.getImgUrl(),recordIdx};
+        this.jdbcTemplate.update(modifyRecordQuery,modifyRecordParams);
+        return new String("글 내용을 변경했습니다.");
+
+    }
 
 
 

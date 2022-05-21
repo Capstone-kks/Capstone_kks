@@ -3,10 +3,7 @@ package com.kks.demo.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponse;
-import com.kks.demo.dto.record.GetDetailRecordRes;
-import com.kks.demo.dto.record.GetFeedRecordRes;
-import com.kks.demo.dto.record.RecordSaveDto;
-import com.kks.demo.dto.record.SearchResponseDto;
+import com.kks.demo.dto.record.*;
 import com.kks.demo.service.RecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -122,6 +119,28 @@ public class RecordApiController {
 
     }
 
+    /**
+     * 글 수정 API
+     */
+
+    @ResponseBody
+    @PatchMapping(value = "/modify/{userId}/{recordIdx}")
+    public BaseResponse<String> modifyRecord(@PathVariable("userId") String userId, @PathVariable("recordIdx") int recordIdx, @RequestBody ModifyRecordReq modifyRecordReq){
+        try{
+            String result = recordService.modifyRecord(userId,recordIdx,modifyRecordReq);
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+    }
+
+
+//    }
+
+    /**
+     * 글 삭제 API
+     */
 
 
 }

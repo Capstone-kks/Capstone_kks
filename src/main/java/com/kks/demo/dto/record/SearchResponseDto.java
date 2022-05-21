@@ -11,7 +11,7 @@ public class SearchResponseDto {
     private String title;
 
     private int categoryId;
-    private int rate;
+    private float rate;
     private String content;
     private int postPublic;
 

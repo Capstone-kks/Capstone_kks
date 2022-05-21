@@ -13,19 +13,18 @@ public class RecordSaveDto {
     private String title;
 
     private int categoryId;
-    private int rate;
+    private float rate;
     private String content;
     private int postPublic;
 
     private String imgUrl;
-    private String postDate;
+ //   private String postDate;
 
     private int commentCount;
 
     @Builder
-    public RecordSaveDto(String userId,  String title, int categoryId,
-            int rate, String content, int postPublic,
-            String imgUrl, String postDate, int commentCount){
+    public RecordSaveDto(String userId,  String title, int categoryId, float rate, String content, int postPublic,
+            String imgUrl, int commentCount){
         this.userId = userId;
         this.title = title;
         this.categoryId = categoryId;
@@ -33,7 +32,7 @@ public class RecordSaveDto {
         this.content = content;
         this.postPublic = postPublic;
         this.imgUrl = imgUrl;
-        this.postDate = postDate;
+   //     this.postDate = postDate;
         this.commentCount = commentCount;
     }
 
@@ -46,7 +45,7 @@ public class RecordSaveDto {
                 .content(content)
                 .postPublic(postPublic)
                 .imgUrl(imgUrl)
-                .postDate(postDate)
+       //         .postDate(postDate)
                 .commentCount(commentCount)
                 .build();
     }

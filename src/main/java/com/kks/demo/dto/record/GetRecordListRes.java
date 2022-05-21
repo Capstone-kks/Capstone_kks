@@ -15,7 +15,7 @@ public class GetRecordListRes {
     private String userId;
     private String title;
     private int categoryId;
-    private int rate;
+    private float rate;
     private String content;
     private boolean postPublic;
     private String imgUrl;

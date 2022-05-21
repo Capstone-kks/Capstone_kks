@@ -1,15 +1,11 @@
 package com.kks.demo.service;
 
 import com.kks.demo.config.BaseException;
-import com.kks.demo.config.BaseResponseStatus;
 import com.kks.demo.domain.record.RecordRepository;
 import com.kks.demo.domain.record.Records;
 
 import com.kks.demo.dao.record.RecordDao;
-import com.kks.demo.dto.record.GetDetailRecordRes;
-import com.kks.demo.dto.record.GetFeedRecordRes;
-import com.kks.demo.dto.record.RecordSaveDto;
-import com.kks.demo.dto.record.SearchResponseDto;
+import com.kks.demo.dto.record.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -121,5 +117,17 @@ public class RecordService {
 
     }
 
+    /**
+     * 글 수정 API
+     */
+    public String modifyRecord(String userId, int recordIdx, ModifyRecordReq modifyRecordReq) throws BaseException{
+        try{
+            String result = recordDao.updateRecord(userId,recordIdx,modifyRecordReq);
+            return result;
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
 }
