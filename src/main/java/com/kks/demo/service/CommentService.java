@@ -1,9 +1,11 @@
 package com.kks.demo.service;
 
 import com.kks.demo.config.BaseException;
+import com.kks.demo.dao.comment.CommentDao;
 import com.kks.demo.dao.record.RecordDao;
 import com.kks.demo.domain.record.RecordRepository;
 import com.kks.demo.domain.record.Records;
+import com.kks.demo.dto.comment.GetCommentsRes;
 import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.GetFeedRecordRes;
 import com.kks.demo.dto.record.RecordSaveDto;
@@ -23,24 +25,27 @@ import static com.kks.demo.config.BaseResponseStatus.DATABASE_ERROR;
 public class CommentService {
 
 
-    private final RecordDao recordDao;
-
-
+    private final CommentDao commentDao;
 
 
     /**
-     * 댓글 작성
+     * 댓글 조회 API
      */
-    public List<GetDetailRecordRes> getDetailRecord(int recordIdx) throws BaseException{
+    public List<GetCommentsRes> getComments(int recordIdx) throws BaseException{
         try{
-            List<GetDetailRecordRes> getDetailRecordRes = recordDao.getDetailRecord(recordIdx);
-            return getDetailRecordRes;
+            List<GetCommentsRes> getCommentsRes= commentDao.getCommentList(recordIdx);
+            return getCommentsRes;
 
         }catch (Exception exception){
             exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    /**
+     * 댓글 작성
+     */
+
 
     /**
      * 댓글 삭제

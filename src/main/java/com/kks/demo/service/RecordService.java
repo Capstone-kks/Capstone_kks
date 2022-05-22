@@ -92,9 +92,9 @@ public class RecordService {
     /**
      * 글 (세부내용)조회 API
      */
-    public List<GetDetailRecordRes> getDetailRecord(int recordIdx) throws BaseException{
+    public GetDetailRecordRes getDetailRecord(int recordIdx) throws BaseException{
         try{
-            List<GetDetailRecordRes> getDetailRecordRes = recordDao.getDetailRecord(recordIdx);
+            GetDetailRecordRes getDetailRecordRes = recordDao.getDetailRecord(recordIdx);
             return getDetailRecordRes;
 
         }catch (Exception exception){
