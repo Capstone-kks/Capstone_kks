@@ -6,6 +6,7 @@ import com.kks.demo.dao.record.RecordDao;
 import com.kks.demo.domain.record.RecordRepository;
 import com.kks.demo.domain.record.Records;
 import com.kks.demo.dto.comment.GetCommentsRes;
+import com.kks.demo.dto.comment.PostCommentReq;
 import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.GetFeedRecordRes;
 import com.kks.demo.dto.record.RecordSaveDto;
@@ -43,19 +44,39 @@ public class CommentService {
     }
 
     /**
-     * 댓글 작성
-     */
-
-
-    /**
      * 댓글 삭제
      */
+    public String deleteComment(int commentIdx)throws BaseException{
+        try{
+            String result = commentDao.deleteComment(commentIdx);
+            return result;
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+
 
 
 
     /**
-     * 댓글 수정
+     * 댓글 작성
      */
+    public String postComment(PostCommentReq postCommentReq)throws BaseException{
+        try{
+            String result = commentDao.postComment(postCommentReq);
+            return result;
+
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.kks.demo.dao.comment;
 
 import com.kks.demo.dto.comment.GetCommentsRes;
+import com.kks.demo.dto.comment.PostCommentReq;
 import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.GetFeedRecordRes;
@@ -39,6 +40,27 @@ public class CommentDao {
                         rs.getString("content"),
                         rs.getString("postDate")
                 ),getCommentParam);
+    }
+
+    /**
+     * 댓글 삭제
+     */
+    public String deleteComment(int commentIdx){
+        String deleteCommentQuery = "DELETE FROM Comment WHERE commentIdx=?";
+        int deleteCommentParam = commentIdx;
+        this.jdbcTemplate.update(deleteCommentQuery,deleteCommentParam);
+        return new String("해당 댓글을 삭제했습니다.");
+    }
+
+    /**
+     * 댓글 작성
+     */
+    public String postComment(PostCommentReq postCommentReq){
+        String postCommentQuery = "INSERT INTO Comment(recordIdx,userId,content)\n"+
+                "VALUES (?,?,?)";
+        Object[] postCommentParams=new Object[]{postCommentReq.getRecordIdx(),postCommentReq.getUserId(),postCommentReq.getContent()};
+        this.jdbcTemplate.update(postCommentQuery,postCommentParams);
+        return new String ("댓글을 작성했습니다.");
     }
 
 
