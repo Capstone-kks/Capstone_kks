@@ -5,12 +5,16 @@ import com.kks.demo.domain.record.RecordRepository;
 import com.kks.demo.domain.record.Records;
 
 import com.kks.demo.dao.record.RecordDao;
+import com.kks.demo.domain.record.SearchResponse;
+import com.kks.demo.dto.MyRecord;
 import com.kks.demo.dto.record.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.kks.demo.config.BaseResponseStatus.DATABASE_ERROR;
@@ -74,13 +78,13 @@ public class RecordService {
     }
 
     public List<SearchResponseDto> SearchByKeyword (String keyword){
-        //List<SearchResponseDto> list = new ArrayList<>();
-        //List<Records> records = recordRepository.findByTitleAndContent(keyword);
-        //return list(new SearchResponseDto(records));
-
         return recordRepository.findByTitleContainsOrContentContains(keyword, keyword).stream()
                 .map(SearchResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public List<SearchResponse> getSearchResult(String keyword, String loginUserId, int sort){
+        return recordDao.getSearchListByCondition(keyword, loginUserId, sort);
     }
 
     public SearchResponseDto SearchByUserRecord (int recordIdx, String userId){
@@ -143,5 +147,6 @@ public class RecordService {
         }
 
     }
+
 
 }

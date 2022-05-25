@@ -1,9 +1,13 @@
 package com.kks.demo.domain.record;
 
 import com.kks.demo.domain.user.Users;
+import com.kks.demo.dto.MyRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RecordRepository extends JpaRepository<Records, Integer> {
 
@@ -19,5 +23,6 @@ public interface RecordRepository extends JpaRepository<Records, Integer> {
     Records findByRecordIdxAndUserId(int recordIdx, String userId);
 
     List<Records> findByUserIdAndCategoryId(String userId, int categoryId);
+
 
 }

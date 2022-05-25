@@ -3,6 +3,8 @@ package com.kks.demo.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponse;
+import com.kks.demo.domain.record.SearchResponse;
+import com.kks.demo.dto.MyRecord;
 import com.kks.demo.dto.record.*;
 import com.kks.demo.service.RecordService;
 import io.swagger.annotations.Api;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -71,10 +74,8 @@ public class RecordApiController {
     @ApiOperation(value="검색", notes="parameter keyword가 제목이나 내용에 들어있는 Record Entity들을 리스트로 반환")
     @GetMapping(value="/search/keyword", produces=MediaType.APPLICATION_JSON_VALUE)
     public List<SearchResponseDto> findByTitleAndContent(@RequestParam String keyword){
-        //public String findByTitleAndContent(@RequestParam String keyword, Model model){
         System.out.println("키워드:"+keyword);
         List<SearchResponseDto> searchList = recordService.SearchByKeyword(keyword);
-        //model.addAttribute(searchList);
 
         return searchList;
     }
@@ -149,5 +150,14 @@ public class RecordApiController {
         }
     }
 
+    /**
+    * 검색 결과 정렬 API
+    * */
+    @ResponseBody
+    @GetMapping(value="/search/keywordtest")
+    public List<SearchResponse> getSearchResult(@RequestParam String keyword, @RequestParam String loginUserId, @RequestParam int sort){
+        List<SearchResponse> searchList = recordService.getSearchResult(keyword, loginUserId, sort);
+        return searchList;
+    }
 
 }

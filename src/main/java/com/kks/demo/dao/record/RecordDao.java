@@ -1,5 +1,6 @@
 package com.kks.demo.dao.record;
 
+import com.kks.demo.domain.record.SearchResponse;
 import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.GetFeedRecordRes;
@@ -177,7 +178,7 @@ public class RecordDao {
                         "FROM RecordLike WHERE status='ACTIVE'\n"+
                         "GROUP BY recordIdx) rl on rl.recordIdx = r.recordIdx\n"+
                         "LEFT JOIN (SELECT userId,nickName FROM User) u on u.userId=r.userId\n"+
-                        " LEFT JOIN (SELECT followerIdx,followingIdx as MyFollow FROM Follow) f on f.followerIdx=?\n"+
+                        "LEFT JOIN (SELECT followerIdx,followingIdx as MyFollow FROM Follow) f on f.followerIdx=?\n"+
                         "WHERE postPublic=1 AND r.userId=MyFollow\n"+
                         "ORDER BY rl.likeCount DESC";
 
@@ -229,6 +230,45 @@ public class RecordDao {
         }
 
 
+    }
+
+    public List<SearchResponse> getSearchListByCondition(String keyword, String loginUserId, int sort) {
+        String getFeedListQuery = null;
+        String getFeedListParams = loginUserId;
+
+        if(sort==1){ // 최신순
+            getFeedListQuery="SELECT r.recordIdx,r.userId,u.nickName,r.title,r.rate,r.content,r.postDate,r.imgUrl\n"+
+                    "FROM Record r\n"+
+                    "LEFT JOIN (SELECT userId,nickName FROM User) u on u.userId=r.userId\n"+
+                    "WHERE postPublic=1 AND (content LIKE '%"+ keyword +
+                    "%' OR title LIKE '%"+ keyword +"%')\n"+
+                    "ORDER BY postDate DESC";
+
+
+        }else if(sort==2) {// 인기순
+            getFeedListQuery = "SELECT r.recordIdx,r.userId,u.nickName,r.title,r.rate,r.content,r.postDate,r.imgUrl\n"+
+                    "FROM Record r\n"+
+                      "LEFT JOIN (SELECT recordIdx,COUNT(*) as likeCount\n"+
+                    "FROM RecordLike WHERE status='ACTIVE'\n"+
+                    "GROUP BY recordIdx) rl on rl.recordIdx = r.recordIdx\n"+
+                    "LEFT JOIN (SELECT userId,nickName FROM User) u on u.userId=r.userId\n"+
+                    "WHERE postPublic=1 AND (content LIKE '%"+ keyword +
+                    "%' OR title LIKE '%"+ keyword +"%')\n"+
+                    "ORDER BY rl.likeCount DESC";
+
+        }
+
+        return this.jdbcTemplate.query(getFeedListQuery,
+                (rs,rowNum)-> new SearchResponse(
+                        rs.getInt("recordIdx"),
+                        rs.getString("userId"),
+                        rs.getString("nickName"),
+                        rs.getString("title"),
+                        rs.getFloat("rate"),
+                        rs.getString("content"),
+                        rs.getString("postDate"),
+                        rs.getString("imgUrl"))
+        );
     }
 
 }
