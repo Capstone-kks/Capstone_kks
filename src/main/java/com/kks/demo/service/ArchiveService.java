@@ -38,7 +38,8 @@ public class ArchiveService {
 
     public List<SearchResponseDto> SearchByCatKeyword (String userId, int categoryid, String keyword){
 
-        return recordRepository.findByUserIdAndCategoryIdAndTitleContainsOrContentContains(userId, categoryid, keyword, keyword).stream()
+        return recordRepository.findByUserIdAndCategoryIdAndContentContainsOrUserIdAndCategoryIdAndTitleContains(userId, categoryid, keyword, userId, categoryid, keyword).stream()
+        //return recordRepository.findByUserIdAndCategoryIdAndContentContains(userId, categoryid, keyword).stream()
                 .map(SearchResponseDto::new)
                 .collect(Collectors.toList());
     }

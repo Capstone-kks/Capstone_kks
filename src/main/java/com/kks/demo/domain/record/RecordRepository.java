@@ -18,7 +18,8 @@ public interface RecordRepository extends JpaRepository<Records, Integer> {
     List<Records> findByTitleContainsOrContentContains(String keyword, String keyword2);
 
     //for archive search
-    List<Records> findByUserIdAndCategoryIdAndTitleContainsOrContentContains(String userId, int categoryId, String keyword, String keyword2);
+    //List<Records> findByUserIdAndCategoryIdAndContentContains(String userId, int categoryId, String keyword);
+    List<Records> findByUserIdAndCategoryIdAndContentContainsOrUserIdAndCategoryIdAndTitleContains(String userId, int categoryId, String keyword, String userId2, int categoryId2, String keyword2);
 
     Records findByRecordIdxAndUserId(int recordIdx, String userId);
 
