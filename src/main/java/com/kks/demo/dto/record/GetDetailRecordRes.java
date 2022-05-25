@@ -19,4 +19,5 @@ public class GetDetailRecordRes {
     private String imgUrl;
     private String postDate;
     private int commentCount;
+    private String isLiked;
 }
