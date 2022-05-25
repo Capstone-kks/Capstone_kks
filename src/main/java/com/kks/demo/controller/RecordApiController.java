@@ -92,10 +92,10 @@ public class RecordApiController {
      * [GET] /api/record/:recordIdx
      */
     @ResponseBody
-    @GetMapping(value="/detail/{recordIdx}")
-    public BaseResponse<GetDetailRecordRes> getDetailRecord(@PathVariable("recordIdx") int recordIdx){
+    @GetMapping(value="/detail/{recordIdx}/{userId}")
+    public BaseResponse<GetDetailRecordRes> getDetailRecord(@PathVariable("recordIdx") int recordIdx,@PathVariable("userId") String userId){
         try{
-            GetDetailRecordRes getDetailRecordRes = recordService.getDetailRecord(recordIdx);
+            GetDetailRecordRes getDetailRecordRes = recordService.getDetailRecord(recordIdx,userId);
             return new BaseResponse<>(getDetailRecordRes);
         }catch (BaseException exception){
             return new BaseResponse<>(exception.getStatus());

@@ -13,12 +13,5 @@ public class PostCommentReq {
     private String content; // 내용
 
 
-//    @Builder
-//    public PostCommentReq(int recordIdx,String userId,String content){
-//        this.recordIdx=recordIdx;
-//        this.userId=userId;
-//        this.content =content;
-//    }
-
 
 }

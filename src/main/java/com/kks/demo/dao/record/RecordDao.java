@@ -43,9 +43,14 @@ public class RecordDao {
     /**
      * 글 (세부내용) 조회 API
      */
-    public GetDetailRecordRes getDetailRecord(int recordIdx){
-        String getRecordQuery= "SELECT * FROM Record WHERE recordIdx=?";
-        int getRecordParam = recordIdx;
+    public GetDetailRecordRes getDetailRecord(int recordIdx,String userId){
+        String getRecordQuery= "SELECT r.recordIdx, r.userId,r.title,r.categoryId,r.rate,r.content,r.postPublic,r.imgUrl,r.postDate,r.commentCount,\n" +
+                "IFNULL(rl.isLiked,'N') AS isLiked\n"+
+                "FROM Record r \n"+
+                "LEFT JOIN (SELECT recordIdx, CASE status WHEN 'ACTIVE' THEN 'Y' WHEN 'INACTIVE' THEN 'N' END AS isLiked FROM RecordLike WHERE userId=?) rl\n"+
+                "ON r.recordIdx = rl.recordIdx\n"+
+                "WHERE r.recordIdx=?";
+        Object[] getRecordParams = new Object[]{userId,recordIdx};
         return this.jdbcTemplate.queryForObject(getRecordQuery,
                 (rs,rowNum)-> new GetDetailRecordRes(
                         rs.getInt("recordIdx"),
@@ -57,8 +62,9 @@ public class RecordDao {
                         rs.getInt("postPublic"),
                         rs.getString("imgUrl"),
                         rs.getString("postDate"),
-                        rs.getInt("commentCount")),
-                getRecordParam);
+                        rs.getInt("commentCount"),
+                        rs.getString("isLiked")),
+                getRecordParams);
 
     }
 
@@ -132,20 +138,20 @@ public class RecordDao {
             case 1:// 최초 좋아요
                 String createRecordLikeQuery = "INSERT INTO RecordLike(recordIdx,userId) VALUES(?,?)";
                 this.jdbcTemplate.update(createRecordLikeQuery,createRecordLikeParams);
-                result=new String("해당 글을 좋아요 했습니다.");
+                result=new String("해당 글에 좋아요를 눌렀습니다.");
                 return result;
             case 2: // 좋아요 취소
                 String changeToInActiveQuery= "UPDATE RecordLike\n"+
                         "SET status='INACTIVE'\n"+
                         "WHERE recordIdx=? AND userId=?";
                 this.jdbcTemplate.update(changeToInActiveQuery,createRecordLikeParams);
-                return new String("해당 글을 좋아요 취소했습니다.");
+                return new String("해당 글에 좋아요를 취소했습니다.");
             default: // 3 (다시 좋아요)
                 String changeToActiveQuery="UPDATE RecordLike\n"+
                         "SET status='ACTIVE'\n"+
                         "WHERE recordIdx=? AND userId=?";
                 this.jdbcTemplate.update(changeToActiveQuery,createRecordLikeParams);
-                return "해당 글을 다시 좋아요 했습니다.";
+                return "해당 글에 다시 좋아요를 눌렀습니다.";
 
         }
     }
