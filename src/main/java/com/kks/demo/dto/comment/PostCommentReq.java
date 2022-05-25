@@ -1,0 +1,24 @@
+package com.kks.demo.dto.comment;
+
+
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class PostCommentReq {
+    private int recordIdx; // 레코드 id
+    private String userId; // 댓글단 사용자
+    private String content; // 내용
+
+
+//    @Builder
+//    public PostCommentReq(int recordIdx,String userId,String content){
+//        this.recordIdx=recordIdx;
+//        this.userId=userId;
+//        this.content =content;
+//    }
+
+
+}

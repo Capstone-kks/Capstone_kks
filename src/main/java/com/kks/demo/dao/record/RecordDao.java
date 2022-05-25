@@ -44,10 +44,10 @@ public class RecordDao {
     /**
      * 글 (세부내용) 조회 API
      */
-    public List<GetDetailRecordRes> getDetailRecord(int recordIdx){
+    public GetDetailRecordRes getDetailRecord(int recordIdx){
         String getRecordQuery= "SELECT * FROM Record WHERE recordIdx=?";
         int getRecordParam = recordIdx;
-        return this.jdbcTemplate.query(getRecordQuery,
+        return this.jdbcTemplate.queryForObject(getRecordQuery,
                 (rs,rowNum)-> new GetDetailRecordRes(
                         rs.getInt("recordIdx"),
                         rs.getString("userId"),
@@ -55,7 +55,7 @@ public class RecordDao {
                         rs.getInt("categoryId"),
                         rs.getInt("rate"),
                         rs.getString("content"),
-                        rs.getBoolean("postPublic"),
+                        rs.getInt("postPublic"),
                         rs.getString("imgUrl"),
                         rs.getString("postDate"),
                         rs.getInt("commentCount")),
@@ -165,7 +165,7 @@ public class RecordDao {
             if(sort==1){ // 최신순
                 getFeedListQuery="SELECT r.recordIdx,r.userId,u.nickName,r.title,r.content,r.postDate,r.imgUrl\n"+
                         "FROM Record r\n"+
-                        "LEFT JOIN (SELECT userId,nickName FROM User) u on u.userId=r.userId\n"+
+                        "LEFT JOIN (SELECT userId,nickName FROM User) u on u.userId= r.userId\n"+
                         "LEFT JOIN (SELECT followerIdx,followingIdx as MyFollow FROM Follow) f on f.followerIdx= ? \n"+
                         "WHERE r.postPublic=1 AND r.userId=MyFollow\n"+
                         "ORDER BY postDate DESC";
