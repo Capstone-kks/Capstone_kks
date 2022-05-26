@@ -3,10 +3,13 @@ package com.kks.demo.service;
 import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponseStatus;
 import com.kks.demo.dao.record.RecordDao;
+import com.kks.demo.domain.recordlike.RecordLikeRespository;
 import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.provider.RecordLikeProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,6 +18,7 @@ public class RecordLikeService {
 
     private final RecordDao recordDao;
     private final RecordLikeProvider recordLikeProvider;
+    private final RecordLikeRespository recordLikeRespository;
 
 
 
@@ -46,6 +50,14 @@ public class RecordLikeService {
             exception.printStackTrace();
             throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
         }
+    }
+
+    //게시글 좋아요 개수
+    @Transactional
+    public String CountLike(int categoryId){
+        long num = recordLikeRespository.countByRecordIdxAndStatus(categoryId,"ACTIVE");
+        String result = Long.toString(num);
+        return result;
     }
 
 

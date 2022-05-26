@@ -5,8 +5,10 @@ import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponse;
 import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.service.RecordLikeService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -34,5 +36,13 @@ public class RecordLikeApiController {
             return new BaseResponse<>(exception.getStatus());
 
         }
+    }
+
+    @ApiOperation(value="기록 좋아요 개수", notes="좋아요 개수 반환")
+    @GetMapping(value="/countlike", produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String CountLike (@RequestParam int recordIdx){
+        //System.out.println("아이디:"+userId);
+        return recordLikeService.CountLike(recordIdx);
     }
 }
