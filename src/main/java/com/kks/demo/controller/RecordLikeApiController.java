@@ -45,4 +45,12 @@ public class RecordLikeApiController {
         //System.out.println("아이디:"+userId);
         return recordLikeService.CountLike(recordIdx);
     }
+
+    @ApiOperation(value="기록 좋아요 여부", notes="좋아요 status 반환 : 1이면 active")
+    @GetMapping(value="/getstatus", produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String LikeStatus (@RequestParam int recordIdx, @RequestParam String userId){
+        //System.out.println("아이디:"+userId);
+        return recordLikeService.LikeStatus(recordIdx, userId);
+    }
 }

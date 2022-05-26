@@ -6,4 +6,7 @@ public interface RecordLikeRespository extends JpaRepository<RecordLikes, Intege
 
     //좋아요 개수
     Long countByRecordIdxAndStatus(int recordIdx, String status);
+
+    //좋아요 여부 (STATUS) 확인 위해 컬럼 찾기
+    RecordLikes findByRecordIdxAndUserId(int recordIdx, String userId);
 }

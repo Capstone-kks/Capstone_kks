@@ -4,7 +4,9 @@ import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponseStatus;
 import com.kks.demo.dao.record.RecordDao;
 import com.kks.demo.domain.recordlike.RecordLikeRespository;
+import com.kks.demo.domain.recordlike.RecordLikes;
 import com.kks.demo.dto.like.PostLikeReq;
+import com.kks.demo.dto.recordlike.LikeResponseDto;
 import com.kks.demo.provider.RecordLikeProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -54,10 +56,24 @@ public class RecordLikeService {
 
     //게시글 좋아요 개수
     @Transactional
-    public String CountLike(int categoryId){
-        long num = recordLikeRespository.countByRecordIdxAndStatus(categoryId,"ACTIVE");
+    public String CountLike(int recordIdx){
+        long num = recordLikeRespository.countByRecordIdxAndStatus(recordIdx,"ACTIVE");
         String result = Long.toString(num);
         return result;
+    }
+
+    //status 반환
+    @Transactional
+    public String LikeStatus(int recordIdx, String userId){
+        RecordLikes like = recordLikeRespository.findByRecordIdxAndUserId(recordIdx, userId);
+
+        if (like != null){
+            LikeResponseDto likedto = new LikeResponseDto(like);
+            if (likedto.getStatus().equals("ACTIVE"))    return "1";
+            else return "0";
+        }
+
+        return "0";
     }
 
 
