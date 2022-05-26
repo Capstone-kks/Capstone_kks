@@ -3,6 +3,7 @@ package com.kks.demo.controller;
 
 import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponse;
+import com.kks.demo.dto.Like;
 import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.service.RecordLikeService;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -52,5 +55,11 @@ public class RecordLikeApiController {
     public String LikeStatus (@RequestParam int recordIdx, @RequestParam String userId){
         //System.out.println("아이디:"+userId);
         return recordLikeService.LikeStatus(recordIdx, userId);
+    }
+
+    @GetMapping("/getliketest")
+    @ResponseBody
+    public List<Like> getRecordLiked(@RequestParam int recordIdx, @RequestParam String userId){
+        return recordLikeService.getRecordLiked(recordIdx, userId);
     }
 }

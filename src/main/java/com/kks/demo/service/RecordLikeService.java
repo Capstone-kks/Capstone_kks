@@ -5,13 +5,16 @@ import com.kks.demo.config.BaseResponseStatus;
 import com.kks.demo.dao.record.RecordDao;
 import com.kks.demo.domain.recordlike.RecordLikeRespository;
 import com.kks.demo.domain.recordlike.RecordLikes;
+import com.kks.demo.dto.Like;
 import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.dto.recordlike.LikeResponseDto;
 import com.kks.demo.provider.RecordLikeProvider;
+import com.kks.demo.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -22,7 +25,7 @@ public class RecordLikeService {
     private final RecordLikeProvider recordLikeProvider;
     private final RecordLikeRespository recordLikeRespository;
 
-
+    private final LikeRepository likeRepository;
 
     /**
      * 레코드(글)에 좋아요 하기
@@ -74,6 +77,10 @@ public class RecordLikeService {
         }
 
         return "0";
+    }
+
+    public List<Like> getRecordLiked(int recordIdx, String userId){
+        return likeRepository.getRecordLiked(recordIdx, userId);
     }
 
 
