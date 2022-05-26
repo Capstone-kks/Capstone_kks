@@ -57,10 +57,10 @@ public class RecordApiController {
     @ResponseBody
     @PostMapping(value="/save")
     @Transactional(rollbackFor = Exception.class)
-    public BaseResponse<String> save(@RequestBody RecordSaveDto requestDto){
+    public BaseResponse<Integer> save(@RequestBody RecordSaveDto requestDto){
         try{
-            String result = recordService.postRecord(requestDto);
-            return new BaseResponse<>(result);
+            int recordIdx = recordService.postRecord(requestDto);
+            return new BaseResponse<>(recordIdx);
         }catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

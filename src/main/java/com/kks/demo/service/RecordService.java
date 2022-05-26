@@ -5,6 +5,7 @@ import com.kks.demo.domain.record.RecordRepository;
 import com.kks.demo.domain.record.Records;
 
 import com.kks.demo.dao.record.RecordDao;
+import com.kks.demo.dto.calendar.GetCalendarRes;
 import com.kks.demo.dto.record.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -61,10 +62,10 @@ public class RecordService {
 //    }
 
     // 게시글 작성
-    public String postRecord(RecordSaveDto requestDto)throws BaseException {
+    public int postRecord(RecordSaveDto requestDto)throws BaseException {
         try{
-            String result=recordDao.postRecord(requestDto);
-            return result;
+            int recordIdx=recordDao.postRecord(requestDto);
+            return recordIdx;
 
 
         }catch (Exception exception){
@@ -140,6 +141,20 @@ public class RecordService {
         }catch (Exception exception){
             exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+    /**
+     * 달력
+     */
+    public List<GetCalendarRes> getCalendarData(String userId, String yearMonth) throws BaseException{
+        try{
+            List<GetCalendarRes> getCalendarRes = recordDao.getCalendarData(userId,yearMonth);
+            return getCalendarRes;
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+
         }
 
     }
