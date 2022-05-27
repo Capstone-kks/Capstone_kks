@@ -18,7 +18,7 @@ public class RecordSaveDto {
     private int postPublic;
 
     private String imgUrl;
- //   private String postDate;
+    private String postDate;
 
     private int commentCount;
 
@@ -32,7 +32,7 @@ public class RecordSaveDto {
         this.content = content;
         this.postPublic = postPublic;
         this.imgUrl = imgUrl;
-   //     this.postDate = postDate;
+      this.postDate = postDate;
         this.commentCount = commentCount;
     }
 
@@ -45,7 +45,7 @@ public class RecordSaveDto {
                 .content(content)
                 .postPublic(postPublic)
                 .imgUrl(imgUrl)
-       //         .postDate(postDate)
+               .postDate(postDate)
                 .commentCount(commentCount)
                 .build();
     }

@@ -1,6 +1,10 @@
 package com.kks.demo.dao.record;
 
+
+import com.kks.demo.dto.calendar.GetCalendarRes;
+
 import com.kks.demo.domain.record.SearchResponse;
+
 import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.GetFeedRecordRes;
@@ -27,18 +31,20 @@ public class RecordDao {
     /**
      * 글 작성 API
      */
-    public String postRecord(RecordSaveDto requestDto){
+    public int postRecord(RecordSaveDto requestDto){
 
 
         String InsertQueQuery = "INSERT INTO Record(userId,title,\n" +
-                "                     categoryId,rate,content,postPublic,imgUrl,commentCount)\n" +
-                "                     VALUES (?,?,?,?,?,?,?,?)";
+                "                     categoryId,rate,content,postPublic,imgUrl,postDate,commentCount)\n" +
+                "                     VALUES (?,?,?,?,?,?,?,?,?)";
         Object[] InsertQueParams = new Object[]{requestDto.getUserId(), requestDto.getTitle(),
                requestDto.getCategoryId(),requestDto.getRate(),requestDto.getContent(),requestDto.getPostPublic(),
-        requestDto.getImgUrl(),requestDto.getCommentCount()};
+        requestDto.getImgUrl(),requestDto.getPostDate(),requestDto.getCommentCount()};
         this.jdbcTemplate.update(InsertQueQuery, InsertQueParams);
 
-        return new String("게시글을 작성했습니다.");
+        String lastInsertIdQuery="select last_insert_id()";
+
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 
     /**
@@ -238,6 +244,23 @@ public class RecordDao {
 
     }
 
+
+    public List<GetCalendarRes> getCalendarData(String userId, String yearMonth) {
+        String getCalendarListQuery = "SELECT recordIdx,imgUrl,postDate\n" +
+                "FROM Record\n" +
+                "WHERE userId=? AND postDate LIKE ?";
+
+        String yearMonth_ = yearMonth + "%";
+
+        Object[] getCalendarListParams = new Object[]{userId, yearMonth_};
+
+        return this.jdbcTemplate.query(getCalendarListQuery,
+                (rs, rowNum) -> new GetCalendarRes(
+                        rs.getInt("recordIdx"),
+                        rs.getString("imgUrl"),
+                        rs.getString("postDate")),
+                getCalendarListParams);
+    }
     public List<SearchResponse> getSearchListByCondition(String keyword, String loginUserId, int sort) {
         String getFeedListQuery = null;
         String getFeedListParams = loginUserId;
@@ -275,6 +298,7 @@ public class RecordDao {
                         rs.getString("postDate"),
                         rs.getString("imgUrl"))
         );
+
     }
 
 }
