@@ -13,7 +13,7 @@ public class ModifyRecordReq {
     private float rate;
     private String content;
     private int postPublic;
-    private String imgUrl;
+  //  private String imgUrl;
 
   @Builder
   public ModifyRecordReq(String title,int categoryId,float rate, String content, int postPublic,
@@ -23,7 +23,7 @@ public class ModifyRecordReq {
     this.rate=rate;
     this.content=content;
     this.postPublic=postPublic;
-    this.imgUrl=imgUrl;
+//    this.imgUrl=imgUrl;
   }
 
 }

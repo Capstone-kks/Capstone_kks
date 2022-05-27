@@ -129,9 +129,19 @@ public class RecordService {
     /**
      * 글 수정 API
      */
-    public String modifyRecord(String userId, int recordIdx, ModifyRecordReq modifyRecordReq) throws BaseException{
+    public String modifyRecord(String userId, int recordIdx, ModifyRecordReq modifyRecordReq,String imageUrl) throws BaseException{
         try{
-            String result = recordDao.updateRecord(userId,recordIdx,modifyRecordReq);
+            String result = recordDao.updateRecord(userId,recordIdx,modifyRecordReq,imageUrl);
+            return result;
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 이미지 변경 x
+    public String modifyRecordExcludeImg(String userId, int recordIdx, ModifyRecordReq modifyRecordReq)throws BaseException{
+        try{
+            String result = recordDao.updateRecordExImg(userId,recordIdx,modifyRecordReq);
             return result;
         }catch (Exception exception){
             exception.printStackTrace();
@@ -179,5 +189,11 @@ public class RecordService {
             throw new BaseException(BaseResponseStatus.POST_IMAGES_FAILED);
         }
     }
+
+
+
+    /**
+     * S3 이미지 삭제
+     */
 
 }

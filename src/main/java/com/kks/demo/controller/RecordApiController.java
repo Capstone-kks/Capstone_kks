@@ -122,9 +122,18 @@ public class RecordApiController {
 
     @ResponseBody
     @PatchMapping(value = "/modify/{userId}/{recordIdx}")
-    public BaseResponse<String> modifyRecord(@PathVariable("userId") String userId, @PathVariable("recordIdx") int recordIdx, @RequestBody ModifyRecordReq modifyRecordReq){
+    public BaseResponse<String> modifyRecord(@PathVariable("userId") String userId, @PathVariable("recordIdx") int recordIdx, @RequestPart("ModifyRecordReq") ModifyRecordReq modifyRecordReq,
+                                             @RequestPart(value = "images", required = false) MultipartFile multipartFile){
+
+        String result="";
         try{
-            String result = recordService.modifyRecord(userId,recordIdx,modifyRecordReq);
+            if(multipartFile==null){
+                 result = recordService.modifyRecordExcludeImg(userId,recordIdx,modifyRecordReq);
+            }else{
+                String imageUrl = recordService.uploadS3Image(multipartFile,userId);
+                 result = recordService.modifyRecord(userId,recordIdx,modifyRecordReq,imageUrl);
+            }
+
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

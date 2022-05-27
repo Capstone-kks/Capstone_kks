@@ -28,18 +28,7 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
 
-    public List<String> upload(List<MultipartFile> uploadFile, String dirName) {
-        List<String> imageUrls = new ArrayList<>();
-        for(MultipartFile file : uploadFile ) {
-            String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            String randomName = UUID.randomUUID().toString() + fileType; // 파일 중복되지 않게 고유식별자 생성
-                        //중복될일 찾아보기
-            String fileName = dirName + "/" + randomName;
-            imageUrls.add(putS3(file, fileName));
 
-        }
-        return imageUrls;
-    }
 
     // s3에 이미지 업로드 1개
     public String upload1(MultipartFile uploadFile, String dirName) {
