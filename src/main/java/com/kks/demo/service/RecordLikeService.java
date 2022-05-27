@@ -79,9 +79,12 @@ public class RecordLikeService {
         return "0";
     }
 
-    public List<Like> getRecordLiked(int recordIdx, String userId){
-        return likeRepository.getRecordLiked(recordIdx, userId);
+
+    public int getRecordLikedCnt(int recordIdx){
+        return likeRepository.getRecordLikedCnt(recordIdx);
     }
 
-
+    public String getRecordLikeActive(int recordIdx, String userId){
+        return likeRepository.getRecordLikeActive(recordIdx, userId);
+    }
 }
