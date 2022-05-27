@@ -2,21 +2,12 @@ package com.kks.demo.service;
 
 import com.kks.demo.config.BaseException;
 import com.kks.demo.dao.comment.CommentDao;
-import com.kks.demo.dao.record.RecordDao;
-import com.kks.demo.domain.record.RecordRepository;
-import com.kks.demo.domain.record.Records;
 import com.kks.demo.dto.comment.GetCommentsRes;
 import com.kks.demo.dto.comment.PostCommentReq;
-import com.kks.demo.dto.record.GetDetailRecordRes;
-import com.kks.demo.dto.record.GetFeedRecordRes;
-import com.kks.demo.dto.record.RecordSaveDto;
-import com.kks.demo.dto.record.SearchResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.kks.demo.config.BaseResponseStatus.DATABASE_ERROR;
 

@@ -9,7 +9,7 @@ import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.GetFeedRecordRes;
 import com.kks.demo.dto.record.ModifyRecordReq;
-import com.kks.demo.dto.record.RecordSaveDto;
+import com.kks.demo.dto.record.RecordSaveReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -31,7 +31,7 @@ public class RecordDao {
     /**
      * 글 작성 API
      */
-    public int postRecord(RecordSaveDto requestDto){
+    public int postRecord(String imgUrl, RecordSaveReq requestDto){
 
 
         String InsertQueQuery = "INSERT INTO Record(userId,title,\n" +
@@ -39,7 +39,7 @@ public class RecordDao {
                 "                     VALUES (?,?,?,?,?,?,?,?,?)";
         Object[] InsertQueParams = new Object[]{requestDto.getUserId(), requestDto.getTitle(),
                requestDto.getCategoryId(),requestDto.getRate(),requestDto.getContent(),requestDto.getPostPublic(),
-        requestDto.getImgUrl(),requestDto.getPostDate(),requestDto.getCommentCount()};
+        imgUrl,requestDto.getPostDate(),requestDto.getCommentCount()};
         this.jdbcTemplate.update(InsertQueQuery, InsertQueParams);
 
         String lastInsertIdQuery="select last_insert_id()";

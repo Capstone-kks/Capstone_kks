@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class RecordSaveDto {
+public class RecordSaveReq {
 
     private String userId;
     private String title;
@@ -17,21 +17,21 @@ public class RecordSaveDto {
     private String content;
     private int postPublic;
 
-    private String imgUrl;
+  //  private String imgUrl;
     private String postDate;
 
     private int commentCount;
 
     @Builder
-    public RecordSaveDto(String userId,  String title, int categoryId, float rate, String content, int postPublic,
-            String imgUrl, int commentCount){
+    public RecordSaveReq(String userId, String title, int categoryId, float rate, String content, String postDate, int postPublic,
+                         String imgUrl, int commentCount){
         this.userId = userId;
         this.title = title;
         this.categoryId = categoryId;
         this.rate = rate;
         this.content = content;
         this.postPublic = postPublic;
-        this.imgUrl = imgUrl;
+    //    this.imgUrl = imgUrl;
       this.postDate = postDate;
         this.commentCount = commentCount;
     }
@@ -44,7 +44,7 @@ public class RecordSaveDto {
                 .rate(rate)
                 .content(content)
                 .postPublic(postPublic)
-                .imgUrl(imgUrl)
+     //           .imgUrl(imgUrl)
                .postDate(postDate)
                 .commentCount(commentCount)
                 .build();

@@ -16,22 +16,11 @@ public enum BaseResponseStatus {
     /**
      * 2000 : Request 오류
      */
-    // Common
-    REQUEST_ERROR(false, 2000, "입력값을 확인해주세요."),
-    EMPTY_JWT(false, 2001, "JWT를 입력해주세요."),
-    INVALID_JWT(false, 2002, "유효하지 않은 JWT입니다."),
-    INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다."),
 
-    // users
-    USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
 
-    // [POST] /users
-    POST_USERS_EMPTY_EMAIL(false, 2015, "이메일을 입력해주세요."),
-    POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
-
-    GET_QUESTIONS_EMPTY_DATA(false, 2502, "존재하지 않는 질문입니다"),
+    POST_IMAGES_FAILED(false,2510,"S3에 이미지 전송을 실패했습니다."),
 
     /**
      * 3000 : Response 오류
@@ -43,7 +32,7 @@ public enum BaseResponseStatus {
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
 
-
+    GET_QUESTIONS_EMPTY_DATA(false, 2502, "존재하지 않는 글입니다"),
 
     /**
      * 4000 : Database, Server 오류
