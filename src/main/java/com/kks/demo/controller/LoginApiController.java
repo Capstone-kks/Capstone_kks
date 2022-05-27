@@ -1,6 +1,7 @@
 package com.kks.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kks.demo.config.BaseException;
 import com.kks.demo.dto.login.ImageUpdateDto;
 import com.kks.demo.dto.login.JoinRequestDto;
 import com.kks.demo.dto.login.NicknameUpdateDto;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,7 +44,7 @@ public class LoginApiController {
         return loginService.update(userId, requestDto);
     }
 
-    @ApiOperation(value="회원정보 - 닉네임 수정", notes="닉네임 수정.")
+    @ApiOperation(value="회원정보 - 카카오프사로 수정", notes="카카오프사로 수정.")
     @PutMapping(value="/login/updateimage/userId={userId}", produces=MediaType.APPLICATION_JSON_VALUE)
     @JsonProperty("requestDto")
     public String updateImg(@PathVariable String userId, @RequestBody ImageUpdateDto requestDto){
@@ -64,5 +66,23 @@ public class LoginApiController {
         return testing;
     }
 
+
+    //Editing Profile Image using Multipart
+    @ApiOperation(value="회원정보 - 프사 수정", notes="프사 수정.")
+    @PutMapping(value="/login/updateimagefile/userId={userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @JsonProperty("requestDto")
+    public String updateImgfile(@PathVariable String userId, @RequestPart(value="images") MultipartFile multipartFile, @RequestPart("ProfImg") ImageUpdateDto requestDto) {
+        try {
+            if (multipartFile != null) {
+                String imageUrl = loginService.uploadS3Image(multipartFile, userId);
+                requestDto = new ImageUpdateDto(imageUrl);
+                return loginService.update2(userId, requestDto);
+            }
+            else return loginService.update2(userId, requestDto);
+        } catch (BaseException e) {
+            e.printStackTrace();
+            return loginService.update2(userId, requestDto);
+        }
+    }
 
 }
