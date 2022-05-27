@@ -3,8 +3,10 @@ package com.kks.demo.dto.login;
 import com.kks.demo.domain.user.Users;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class UserResponseDto {
 
     private int userIndex;
