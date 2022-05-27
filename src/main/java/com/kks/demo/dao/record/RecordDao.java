@@ -9,10 +9,11 @@ import com.kks.demo.dto.like.PostLikeReq;
 import com.kks.demo.dto.record.GetDetailRecordRes;
 import com.kks.demo.dto.record.GetFeedRecordRes;
 import com.kks.demo.dto.record.ModifyRecordReq;
-import com.kks.demo.dto.record.RecordSaveDto;
+import com.kks.demo.dto.record.RecordSaveReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -31,7 +32,7 @@ public class RecordDao {
     /**
      * 글 작성 API
      */
-    public int postRecord(RecordSaveDto requestDto){
+    public int postRecord(String imgUrl, RecordSaveReq requestDto){
 
 
         String InsertQueQuery = "INSERT INTO Record(userId,title,\n" +
@@ -39,7 +40,7 @@ public class RecordDao {
                 "                     VALUES (?,?,?,?,?,?,?,?,?)";
         Object[] InsertQueParams = new Object[]{requestDto.getUserId(), requestDto.getTitle(),
                requestDto.getCategoryId(),requestDto.getRate(),requestDto.getContent(),requestDto.getPostPublic(),
-        requestDto.getImgUrl(),requestDto.getPostDate(),requestDto.getCommentCount()};
+        imgUrl,requestDto.getPostDate(),requestDto.getCommentCount()};
         this.jdbcTemplate.update(InsertQueQuery, InsertQueParams);
 
         String lastInsertIdQuery="select last_insert_id()";
@@ -80,14 +81,22 @@ public class RecordDao {
      * 글 수정 API
      */
 
-    public String updateRecord(String userId, int recordIdx, ModifyRecordReq modifyRecordReq){
+    public String updateRecord(String userId, int recordIdx, ModifyRecordReq modifyRecordReq, String imgUrl){
 
         String modifyRecordQuery = "UPDATE Record set title=?, categoryId=?, rate=?, content=?,postPublic=?,imgUrl=? where recordIdx=?";
         Object[] modifyRecordParams=new Object[]{modifyRecordReq.getTitle(),modifyRecordReq.getCategoryId(),modifyRecordReq.getRate(),
-        modifyRecordReq.getContent(),modifyRecordReq.getPostPublic(),modifyRecordReq.getImgUrl(),recordIdx};
+        modifyRecordReq.getContent(),modifyRecordReq.getPostPublic(),imgUrl,recordIdx};
         this.jdbcTemplate.update(modifyRecordQuery,modifyRecordParams);
         return new String("글 내용을 변경했습니다.");
 
+    }
+    public String updateRecordExImg(String userId, int recordIdx, ModifyRecordReq modifyRecordReq){
+
+        String modifyRecordQuery = "UPDATE Record set title=?, categoryId=?, rate=?, content=?,postPublic=? where recordIdx=?";
+        Object[] modifyRecordParams=new Object[]{modifyRecordReq.getTitle(),modifyRecordReq.getCategoryId(),modifyRecordReq.getRate(),
+                modifyRecordReq.getContent(),modifyRecordReq.getPostPublic(),recordIdx};
+        this.jdbcTemplate.update(modifyRecordQuery,modifyRecordParams);
+        return new String("글 내용을 변경했습니다.");
     }
 
 

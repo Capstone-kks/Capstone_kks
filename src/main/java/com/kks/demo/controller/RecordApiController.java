@@ -1,24 +1,19 @@
 package com.kks.demo.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponse;
 import com.kks.demo.domain.record.SearchResponse;
-import com.kks.demo.dto.MyRecord;
 import com.kks.demo.dto.record.*;
 import com.kks.demo.service.RecordService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -60,9 +55,10 @@ public class RecordApiController {
     @ResponseBody
     @PostMapping(value="/save")
     @Transactional(rollbackFor = Exception.class)
-    public BaseResponse<Integer> save(@RequestBody RecordSaveDto requestDto){
+    public BaseResponse<Integer> save(@RequestPart(value="images")MultipartFile multipartFile, @RequestPart("RecordSaveReq") RecordSaveReq recordSaveReq){
         try{
-            int recordIdx = recordService.postRecord(requestDto);
+            String imageUrl = recordService.uploadS3Image(multipartFile,recordSaveReq.getUserId());
+            int recordIdx = recordService.postRecord(imageUrl,recordSaveReq);
             return new BaseResponse<>(recordIdx);
         }catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
@@ -126,9 +122,18 @@ public class RecordApiController {
 
     @ResponseBody
     @PatchMapping(value = "/modify/{userId}/{recordIdx}")
-    public BaseResponse<String> modifyRecord(@PathVariable("userId") String userId, @PathVariable("recordIdx") int recordIdx, @RequestBody ModifyRecordReq modifyRecordReq){
+    public BaseResponse<String> modifyRecord(@PathVariable("userId") String userId, @PathVariable("recordIdx") int recordIdx, @RequestPart("ModifyRecordReq") ModifyRecordReq modifyRecordReq,
+                                             @RequestPart(value = "images", required = false) MultipartFile multipartFile){
+
+        String result="";
         try{
-            String result = recordService.modifyRecord(userId,recordIdx,modifyRecordReq);
+            if(multipartFile==null){
+                 result = recordService.modifyRecordExcludeImg(userId,recordIdx,modifyRecordReq);
+            }else{
+                String imageUrl = recordService.uploadS3Image(multipartFile,userId);
+                 result = recordService.modifyRecord(userId,recordIdx,modifyRecordReq,imageUrl);
+            }
+
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

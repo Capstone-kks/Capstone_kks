@@ -1,6 +1,7 @@
 package com.kks.demo.service;
 
 import com.kks.demo.config.BaseException;
+import com.kks.demo.config.BaseResponseStatus;
 import com.kks.demo.domain.record.RecordRepository;
 import com.kks.demo.domain.record.Records;
 
@@ -11,13 +12,13 @@ import com.kks.demo.dto.calendar.GetCalendarRes;
 import com.kks.demo.domain.record.SearchResponse;
 
 import com.kks.demo.dto.record.*;
+import com.kks.demo.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.kks.demo.config.BaseResponseStatus.DATABASE_ERROR;
@@ -30,6 +31,7 @@ public class RecordService {
     private final RecordRepository recordRepository;
 
     private final RecordDao recordDao;
+    private final S3Uploader s3Uploader;
 
     //카테고리 순서 : 공연 도서 드라마 연/뮤 영화 음악 전시 기타
     int[] categories = {1, 10, 11, 12, 13, 14, 15, 16};
@@ -68,9 +70,9 @@ public class RecordService {
 //    }
 
     // 게시글 작성
-    public int postRecord(RecordSaveDto requestDto)throws BaseException {
+    public int postRecord(String imageUrl, RecordSaveReq requestDto)throws BaseException {
         try{
-            int recordIdx=recordDao.postRecord(requestDto);
+            int recordIdx=recordDao.postRecord(imageUrl,requestDto);
             return recordIdx;
 
 
@@ -127,9 +129,19 @@ public class RecordService {
     /**
      * 글 수정 API
      */
-    public String modifyRecord(String userId, int recordIdx, ModifyRecordReq modifyRecordReq) throws BaseException{
+    public String modifyRecord(String userId, int recordIdx, ModifyRecordReq modifyRecordReq,String imageUrl) throws BaseException{
         try{
-            String result = recordDao.updateRecord(userId,recordIdx,modifyRecordReq);
+            String result = recordDao.updateRecord(userId,recordIdx,modifyRecordReq,imageUrl);
+            return result;
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 이미지 변경 x
+    public String modifyRecordExcludeImg(String userId, int recordIdx, ModifyRecordReq modifyRecordReq)throws BaseException{
+        try{
+            String result = recordDao.updateRecordExImg(userId,recordIdx,modifyRecordReq);
             return result;
         }catch (Exception exception){
             exception.printStackTrace();
@@ -165,5 +177,23 @@ public class RecordService {
 
     }
 
+    /**
+     * S3에 이미지 한개 저장.
+     */
+    public String uploadS3Image(MultipartFile multipartFile,String userId) throws BaseException{
+        try{
+            String imagePath = s3Uploader.upload1(multipartFile,"userId"+userId);
+            return imagePath;
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(BaseResponseStatus.POST_IMAGES_FAILED);
+        }
+    }
+
+
+
+    /**
+     * S3 이미지 삭제
+     */
 
 }
