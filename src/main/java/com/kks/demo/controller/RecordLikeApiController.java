@@ -57,9 +57,16 @@ public class RecordLikeApiController {
         return recordLikeService.LikeStatus(recordIdx, userId);
     }
 
-    @GetMapping("/getliketest")
+
+    @GetMapping("/getlikecnttest")
     @ResponseBody
-    public List<Like> getRecordLiked(@RequestParam int recordIdx, @RequestParam String userId){
-        return recordLikeService.getRecordLiked(recordIdx, userId);
+    public int getRecordLikedCnt(@RequestParam int recordIdx){
+        return recordLikeService.getRecordLikedCnt(recordIdx);
+    }
+
+    @GetMapping("/getlikeactivetest")
+    @ResponseBody
+    public String getRecordLikeActive(@RequestParam int recordIdx, @RequestParam String userId){
+        return recordLikeService.getRecordLikeActive(recordIdx, userId);
     }
 }
