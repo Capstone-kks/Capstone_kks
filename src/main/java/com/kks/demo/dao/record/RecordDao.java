@@ -65,7 +65,7 @@ public class RecordDao {
                         rs.getString("userId"),
                         rs.getString("title"),
                         rs.getInt("categoryId"),
-                        rs.getInt("rate"),
+                        rs.getFloat("rate"),
                         rs.getString("content"),
                         rs.getInt("postPublic"),
                         rs.getString("imgUrl"),
