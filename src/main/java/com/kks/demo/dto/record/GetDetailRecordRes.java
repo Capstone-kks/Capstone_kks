@@ -20,4 +20,6 @@ public class GetDetailRecordRes {
     private String postDate;
     private int commentCount;
     private String isLiked;
+    private String writerName;
+    private String profileImg;
 }
