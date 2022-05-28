@@ -53,10 +53,11 @@ public class RecordDao {
      */
     public GetDetailRecordRes getDetailRecord(int recordIdx,String userId){
         String getRecordQuery= "SELECT r.recordIdx, r.userId,r.title,r.categoryId,r.rate,r.content,r.postPublic,r.imgUrl,r.postDate,r.commentCount,\n" +
-                "IFNULL(rl.isLiked,'N') AS isLiked\n"+
+                "IFNULL(rl.isLiked,'N') AS isLiked, writerName,profileImg\n"+
                 "FROM Record r \n"+
                 "LEFT JOIN (SELECT recordIdx, CASE status WHEN 'ACTIVE' THEN 'Y' WHEN 'INACTIVE' THEN 'N' END AS isLiked FROM RecordLike WHERE userId=?) rl\n"+
                 "ON r.recordIdx = rl.recordIdx\n"+
+                "LEFT JOIN (SELECT userId,nickName as writerName , userImg as profileImg FROM User) u on u.userId=r.userId\n"+
                 "WHERE r.recordIdx=?";
         Object[] getRecordParams = new Object[]{userId,recordIdx};
         return this.jdbcTemplate.queryForObject(getRecordQuery,
@@ -71,7 +72,9 @@ public class RecordDao {
                         rs.getString("imgUrl"),
                         rs.getString("postDate"),
                         rs.getInt("commentCount"),
-                        rs.getString("isLiked")),
+                        rs.getString("isLiked"),
+                        rs.getString("writerName"),
+                        rs.getString("profileImg")),
                 getRecordParams);
 
     }
