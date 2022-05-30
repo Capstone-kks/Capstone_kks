@@ -165,6 +165,9 @@ public class RecordApiController {
         return searchList;
     }
 
-
+    /**
+     * 사용자 추천 API
+     * */
+    
 
 }

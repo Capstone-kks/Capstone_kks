@@ -37,9 +37,42 @@ public class InfoApiController {
         return infoService.getFollowingList(userId);
     }
 
+    @GetMapping(value = "/follow/apply")
+    @ResponseBody
+    public String requestFollow(@RequestParam String followerIdx, @RequestParam String followingIdx) {
+        try {
+            return infoService.requestFollow(followerIdx,followingIdx);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "follow request fail";
+        }
+    }
+
+    @GetMapping(value = "/follow/cancel")
+    @ResponseBody
+    public String cancelFollow(@RequestParam String followerIdx, @RequestParam String followingIdx) {
+        try {
+            return infoService.cancelFollow(followerIdx,followingIdx);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "follow cancel fail";
+        }
+    }
+
     @GetMapping(value = "/liked")
     @ResponseBody
     public List<MyRecord> getRecordLikeList(@RequestParam String userId) {
         return infoService.getRecordLikeList(userId);
+    }
+
+    @GetMapping(value = "/withdrawal")
+    @ResponseBody
+    public String withdrawal(@RequestParam String userId){
+        try {
+            return infoService.withdrawal(userId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
     }
 }

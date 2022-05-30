@@ -35,14 +35,25 @@ public class InfoService {
         return infoRepository.getRecordLikeList(userId);
     }
 
-    /*public List<User> getUserList() {
-        return userRepo.findAll();
+
+
+    public String requestFollow(String followerIdx, String followingIdx){
+        infoRepository.requestFollow(followerIdx, followingIdx);
+        return "follow request success";
     }
-    */
 
-    // 5. 회원탈퇴 -> 관련 정보 삭제
+    public String cancelFollow(String followerIdx, String followingIdx){
+        infoRepository.cancelFollow(followerIdx, followingIdx);
+        return "follow cancel success";
+    }
+
+    // 회원탈퇴 -> 관련 정보 삭제
     public String withdrawal(String userId) throws Exception{
-
+        infoRepository.deleteUser(userId);
+        infoRepository.deleteFollow(userId);
+        infoRepository.deleteRecord(userId);
+        infoRepository.deleteLike(userId);
+        infoRepository.deleteComment(userId);
 
         return "success";
     }
