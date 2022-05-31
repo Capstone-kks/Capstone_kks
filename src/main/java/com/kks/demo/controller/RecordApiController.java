@@ -3,6 +3,7 @@ package com.kks.demo.controller;
 import com.kks.demo.config.BaseException;
 import com.kks.demo.config.BaseResponse;
 import com.kks.demo.domain.record.SearchResponse;
+import com.kks.demo.dto.Recommend;
 import com.kks.demo.dto.record.*;
 import com.kks.demo.service.RecordService;
 import io.swagger.annotations.ApiOperation;
@@ -168,6 +169,11 @@ public class RecordApiController {
     /**
      * 사용자 추천 API
      * */
-    
+    @ResponseBody
+    @GetMapping(value="/recommend")
+    public List<Recommend> getRecommendRecord(@RequestParam int categoryId){
+        List<Recommend> data = recordService.getRecommendRecord(categoryId);
+        return data;
+    }
 
 }

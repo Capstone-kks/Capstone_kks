@@ -1,6 +1,7 @@
 package com.kks.demo.dao.record;
 
 
+import com.kks.demo.dto.Recommend;
 import com.kks.demo.dto.calendar.GetCalendarRes;
 
 import com.kks.demo.domain.record.SearchResponse;
@@ -256,7 +257,6 @@ public class RecordDao {
 
     }
 
-
     public List<GetCalendarRes> getCalendarData(String userId, String yearMonth) {
         String getCalendarListQuery = "SELECT recordIdx,imgUrl,postDate\n" +
                 "FROM Record\n" +
@@ -273,6 +273,11 @@ public class RecordDao {
                         rs.getString("postDate")),
                 getCalendarListParams);
     }
+
+
+    /**
+     * 검색 결과 정렬
+     * */
     public List<SearchResponse> getSearchListByCondition(String keyword, String loginUserId, int sort) {
         String getFeedListQuery = null;
         String getFeedListParams = loginUserId;
@@ -311,6 +316,24 @@ public class RecordDao {
                         rs.getString("imgUrl"))
         );
 
+    }
+
+    /**
+     * 사용자 추천
+     * */
+    public List<Recommend> getRecommendRecord(int categoryId){
+        return this.jdbcTemplate.query("select recordIdx, title, rate, content, imgUrl, postDate " +
+                "from Record " +
+                "where categoryId = " + categoryId + " and rate >= 3.0 and postPublic=1 " +
+                "order by rand() limit 5",
+                (rs, rowNum) -> new Recommend(
+                        rs.getInt("recordIdx"),
+                        rs.getString("title"),
+                        rs.getFloat("rate"),
+                        rs.getString("content"),
+                        rs.getString("imgUrl"),
+                        rs.getString("postDate"))
+        );
     }
 
 }

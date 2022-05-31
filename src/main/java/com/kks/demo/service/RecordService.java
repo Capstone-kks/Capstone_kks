@@ -7,6 +7,7 @@ import com.kks.demo.domain.record.Records;
 
 import com.kks.demo.dao.record.RecordDao;
 
+import com.kks.demo.dto.Recommend;
 import com.kks.demo.dto.calendar.GetCalendarRes;
 
 import com.kks.demo.domain.record.SearchResponse;
@@ -88,8 +89,18 @@ public class RecordService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 검색 결과 정렬
+     * */
     public List<SearchResponse> getSearchResult(String keyword, String loginUserId, int sort){
         return recordDao.getSearchListByCondition(keyword, loginUserId, sort);
+    }
+
+    /**
+     * 사용자 추천
+     * */
+    public List<Recommend> getRecommendRecord(int categoryId){
+        return recordDao.getRecommendRecord(categoryId);
     }
 
     public SearchResponseDto SearchByUserRecord (int recordIdx, String userId){
