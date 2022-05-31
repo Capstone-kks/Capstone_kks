@@ -321,10 +321,10 @@ public class RecordDao {
     /**
      * 사용자 추천
      * */
-    public List<Recommend> getRecommendRecord(int categoryId){
+    public List<Recommend> getRecommendRecord(int categoryId, String userId){
         return this.jdbcTemplate.query("select recordIdx, title, rate, content, imgUrl, postDate " +
                 "from Record " +
-                "where categoryId = " + categoryId + " and rate >= 3.0 and postPublic=1 " +
+                "where categoryId = " + categoryId + " and rate >= 3.0 and postPublic=1 and not userId = '"+ userId + "'" +
                 "order by rand() limit 5",
                 (rs, rowNum) -> new Recommend(
                         rs.getInt("recordIdx"),

@@ -171,8 +171,8 @@ public class RecordApiController {
      * */
     @ResponseBody
     @GetMapping(value="/recommend")
-    public List<Recommend> getRecommendRecord(@RequestParam int categoryId){
-        List<Recommend> data = recordService.getRecommendRecord(categoryId);
+    public List<Recommend> getRecommendRecord(@RequestParam int categoryId, @RequestParam String userId){
+        List<Recommend> data = recordService.getRecommendRecord(categoryId, userId);
         return data;
     }
 

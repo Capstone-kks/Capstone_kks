@@ -99,8 +99,8 @@ public class RecordService {
     /**
      * 사용자 추천
      * */
-    public List<Recommend> getRecommendRecord(int categoryId){
-        return recordDao.getRecommendRecord(categoryId);
+    public List<Recommend> getRecommendRecord(int categoryId, String userId){
+        return recordDao.getRecommendRecord(categoryId, userId);
     }
 
     public SearchResponseDto SearchByUserRecord (int recordIdx, String userId){
