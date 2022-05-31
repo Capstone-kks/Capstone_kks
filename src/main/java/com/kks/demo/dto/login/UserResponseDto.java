@@ -9,13 +9,13 @@ import lombok.Setter;
 @Setter
 public class UserResponseDto {
 
-    //private int userIndex;
+    private int userIndex;
     private String userId;
     private String nickName;
     private String userImg;
 
     public UserResponseDto(Users entity){
-        //this.userIndex = entity.getUserIndex();
+        this.userIndex = entity.getUserIndex();
         this.userId = entity.getUserId();
         this.nickName = entity.getNickName();
         this.userImg = entity.getUserImg();
