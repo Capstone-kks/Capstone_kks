@@ -111,6 +111,8 @@ public class RecordDao {
         String deleteRecordQuery = "DELETE FROM Record WHERE recordIdx=?";
         int deleteRecordParam = recordIdx;
         this.jdbcTemplate.update(deleteRecordQuery,deleteRecordParam);
+        String deleteCommentQuery="DELETE FROM Comment WHERE recordIdx=?";
+        this.jdbcTemplate.update(deleteCommentQuery,recordIdx);
         return new String("해당 글을 삭제했습니다.");
 
     }
