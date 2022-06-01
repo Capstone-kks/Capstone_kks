@@ -3,6 +3,7 @@ package com.kks.demo.repository;
 import com.kks.demo.dto.Like;
 import com.mysql.cj.protocol.ResultsetRows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
@@ -23,18 +24,26 @@ public class LikeRepository {
 
     public int getRecordLikedCnt(int recordIdx){
         String status = "ACTIVE";
-        return this.jdbcTemplate.queryForObject("select count(*) "
-                        + "from RecordLike "
-                        + "where recordIdx = " + recordIdx + " "
-                        + "and status = 'ACTIVE'",
-                Integer.class
-        );
+        try{
+            return this.jdbcTemplate.queryForObject("select count(*) "
+                            + "from RecordLike "
+                            + "where recordIdx = " + recordIdx + " "
+                            + "and status = 'ACTIVE'",
+                    Integer.class
+            );
+        }catch (EmptyResultDataAccessException e){
+            return 0;
+        }
     }
 
     public String getRecordLikeActive(int recordIdx, String userId){
-        return this.jdbcTemplate.queryForObject("select status "
-                        + "from RecordLike "
-                        + "where userId = " + userId + " AND recordIdx = " + recordIdx,
-                String.class);
+        try {
+            return this.jdbcTemplate.queryForObject("select status "
+                            + "from RecordLike "
+                            + "where userId = " + userId + " AND recordIdx = " + recordIdx,
+                    String.class);
+        }catch (EmptyResultDataAccessException e){
+            return "error";
+        }
     }
 }

@@ -28,7 +28,7 @@ public class InfoApiController {
     @GetMapping(value = "/otherrecord")
     @ResponseBody
     public List<MyRecord> getOtherRecirdList(@RequestParam String userId){ return infoService.getOtherRecirdList(userId); }
-    
+
     @GetMapping(value = "/follower")
     @ResponseBody
     public List<Follow> getFollowerList(@RequestParam String userId) {
