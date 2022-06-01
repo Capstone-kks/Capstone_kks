@@ -23,6 +23,8 @@ public class InfoService {
             return infoRepository.selectByUserId(userId);
     }
 
+    public List<MyRecord> getOtherRecirdList(String userId){ return infoRepository.selectByOtherUserId(userId); }
+
     public List<Follow> getFollowerList(String userId){
         return infoRepository.getFollowerList(userId);
     }

@@ -40,6 +40,19 @@ public class InfoRepository {
     }
 
     /**
+     * 다른 사용자 게시물
+     * */
+    public List<MyRecord> selectByOtherUserId(String userId){
+        return this.jdbcTemplate.query("select recordIdx, imgUrl "
+                        + "from Record "
+                        + "where userId = " + userId + " and postPublic = 1",
+                (rs, rowNum) -> new MyRecord(
+                        rs.getInt("recordIdx"),
+                        rs.getString("imgUrl"))
+        );
+    }
+
+    /**
      * 팔로워 리스트
      * */
     public List<Follow> getFollowerList(String userId){
