@@ -113,7 +113,7 @@ public class InfoRepository {
                         + "from   RecordLike rl "
                         + "inner join Record r "
                         + "		on rl.recordIdx = r.recordIdx "
-                        + "where  rl.userId = " + userId,
+                        + "where  rl.userId = " + userId + " and status = 'ACTIVE'",
                 (rs, rowNum) -> new MyRecord(
                         rs.getInt("recordIdx"),
                         rs.getString("imgUrl"))
