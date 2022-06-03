@@ -75,8 +75,8 @@ public class InfoApiController {
         try {
             return infoService.withdrawal(userId);
         }catch (Exception e){
-            e.printStackTrace();
-            return "fail";
+
+            return e.getMessage();
         }
     }
 }
