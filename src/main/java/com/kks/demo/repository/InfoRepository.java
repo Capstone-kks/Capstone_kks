@@ -125,43 +125,29 @@ public class InfoRepository {
      * */
     //사용자 계정 삭제
     public int deleteUser(String userId){
-        String deleteQuery = "delete from User where userId = ?";
-        Object[] deleteParams = new Object[]{userId};
-        this.jdbcTemplate.update(deleteQuery, deleteParams);
-
-        return 1;
+        String deleteQuery = "delete from User where userId = '" + userId + "'";
+        return this.jdbcTemplate.update(deleteQuery);
     }
 
     //팔로우 삭제
     public int deleteFollow(String userId){
-        String deleteQuery = "delete from Follow where followerIdx = ? and followingIdx = ?";
-        Object[] deleteParams = new Object[]{userId, userId};
-        this.jdbcTemplate.update(deleteQuery,deleteParams);
-
-        return 1;
+        String deleteQuery = "delete from Follow where followerIdx = '" + userId
+                + "' and followingIdx = '" + userId + "'";
+        return this.jdbcTemplate.update(deleteQuery);
     }
     //게시글 삭제
     public int deleteRecord(String userId){
-        String deleteQuery = "delete from Record where userId = ?";
-        Object[] deleteParams = new Object[]{userId, userId};
-        this.jdbcTemplate.update(deleteQuery,deleteParams);
-
-        return 1;
+        String deleteQuery = "delete from Record where userId = '" + userId + "'";
+        return this.jdbcTemplate.update(deleteQuery);
     }
     //좋아요 삭제
     public int deleteLike(String userId){
-        String deleteQuery = "delete from RecordLike where userId = ?";
-        Object[] deleteParams = new Object[]{userId, userId};
-        this.jdbcTemplate.update(deleteQuery,deleteParams);
-
-        return 1;
+        String deleteQuery = "delete from RecordLike where userId = '" + userId + "'";
+        return this.jdbcTemplate.update(deleteQuery);
     }
     //댓글 삭제
     public int deleteComment(String userId){
-        String deleteQuery = "delete from Comment where userId = ?";
-        Object[] deleteParams = new Object[]{userId, userId};
-        this.jdbcTemplate.update(deleteQuery,deleteParams);
-
-        return 1;
+        String deleteQuery = "delete from Comment where userId = '" + userId + "'";
+        return this.jdbcTemplate.update(deleteQuery);
     }
 }

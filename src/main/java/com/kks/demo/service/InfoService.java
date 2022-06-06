@@ -50,13 +50,20 @@ public class InfoService {
     }
 
     // 회원탈퇴 -> 관련 정보 삭제
-    public String withdrawal(String userId) throws Exception{
-        infoRepository.deleteUser(userId);
-        infoRepository.deleteFollow(userId);
-        infoRepository.deleteRecord(userId);
-        infoRepository.deleteLike(userId);
-        infoRepository.deleteComment(userId);
+    public String withdrawal(String userId){
+        String result = "";
+        try{
+            int comment = infoRepository.deleteComment(userId);
+            int like = infoRepository.deleteLike(userId);
+            int record = infoRepository.deleteRecord(userId);
+            int follow = infoRepository.deleteFollow(userId);
+            int user = infoRepository.deleteUser(userId);
 
-        return "success";
+            if(user > 0)
+                return "sucess";
+        }catch (Exception e){
+            result = e.getMessage();
+        }
+        return result;
     }
 }
