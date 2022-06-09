@@ -89,34 +89,29 @@ public class InfoRepository {
      * 팔로우 신청
      * */
     public int requestFollow(String followerIdx, String followingIdx){
-        String insertQuery = "insert into Follow(followerIdx, followingIdx) values(?,?)";
-        Object[] insertParams = new Object[]{followerIdx, followingIdx};
-        this.jdbcTemplate.update(insertQuery, insertParams);
-        return 1;
+        String insertQuery = "insert into Follow values(?,?)";
+        int result = jdbcTemplate.update(insertQuery, followerIdx, followingIdx);
+        return result;
     }
 
     /**
      * 팔로우 취소
      * */
     public int cancelFollow(String followerIdx, String followingIdx){
-        String deleteQuery = "delete from Follow where followerIdx = ? and followingIdx = ?";
-        Object[] deleteParams = new Object[]{followerIdx, followingIdx};
-        this.jdbcTemplate.update(deleteQuery, deleteParams);
-        return 1;
+        String deleteQuery = "delete from Follow where followerIdx = '" +
+                followerIdx + "' and followingIdx = '" + followingIdx + "'";
+        int result = jdbcTemplate.update(deleteQuery);
+        return result;
     }
 
     /**
      * 팔로우 여부
      * */
     public int getFollowStatus(String userId, String followId){
-        try{
-            return this.jdbcTemplate.queryForObject("select count(*) "
-                            + "from Follow "
-                            + "where followerIdx = " + userId + " AND followingIdx = " + followId,
-                    Integer.class);
-        }catch (EmptyResultDataAccessException e){
-            return 0;
-        }
+        String selectQuery = "select count(*) from Follow where followerIdx = '" +
+                userId + "' and followingIdx = '" + followId + "'";
+        int result = jdbcTemplate.queryForObject(selectQuery, Integer.class);
+        return result;
     }
 
 
