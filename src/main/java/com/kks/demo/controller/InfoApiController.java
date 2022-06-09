@@ -63,6 +63,12 @@ public class InfoApiController {
         }
     }
 
+    @GetMapping(value = "/follow/status")
+    @ResponseBody
+    public int getFollowStatus(@RequestParam String userId, @RequestParam String followId) {
+        return infoService.getFollowStatus(userId, followId);
+    }
+
     @GetMapping(value = "/liked")
     @ResponseBody
     public List<MyRecord> getRecordLikeList(@RequestParam String userId) {
@@ -72,11 +78,6 @@ public class InfoApiController {
     @GetMapping(value = "/withdrawal")
     @ResponseBody
     public String withdrawal(@RequestParam String userId){
-        try {
             return infoService.withdrawal(userId);
-        }catch (Exception e){
-            e.printStackTrace();
-            return "fail";
-        }
     }
 }
