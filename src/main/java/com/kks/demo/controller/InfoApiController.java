@@ -80,6 +80,10 @@ public class InfoApiController {
     @GetMapping(value = "/withdrawal")
     @ResponseBody
     public String withdrawal(@RequestParam String userId){
+        try {
             return infoService.withdrawal(userId);
+        }catch (Exception e){
+            return e.getMessage();
+        }
     }
 }
