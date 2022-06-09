@@ -39,33 +39,25 @@ public class InfoService {
 
 
 
-    public String requestFollow(String followerIdx, String followingIdx){
-        infoRepository.requestFollow(followerIdx, followingIdx);
-        return "follow request success";
+    public int requestFollow(String followerIdx, String followingIdx){
+        return infoRepository.requestFollow(followerIdx, followingIdx);
     }
 
-    public String cancelFollow(String followerIdx, String followingIdx){
-        infoRepository.cancelFollow(followerIdx, followingIdx);
-        return "follow cancel success";
+    public int cancelFollow(String followerIdx, String followingIdx){
+        return infoRepository.cancelFollow(followerIdx, followingIdx);
     }
 
-    public int getFollowStatus(String userId, String followId){ return infoRepository.getFollowStatus(userId, followId); }
+    public int getFollowStatus(String userId, String followId){
+        return infoRepository.getFollowStatus(userId, followId);
+    }
 
     // 회원탈퇴 -> 관련 정보 삭제
     public String withdrawal(String userId){
-        String result = "";
-        try{
-            int comment = infoRepository.deleteComment(userId);
-            int like = infoRepository.deleteLike(userId);
-            int record = infoRepository.deleteRecord(userId);
-            int follow = infoRepository.deleteFollow(userId);
-            int user = infoRepository.deleteUser(userId);
+        int user = infoRepository.deleteUser(userId);
 
-            if(user > 0)
-                return "sucess";
-        }catch (Exception e){
-            result = e.getMessage();
-        }
-        return result;
+        if(user > 0)
+            return "success";
+        else
+            return "delete error";
     }
 }

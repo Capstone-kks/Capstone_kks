@@ -45,10 +45,9 @@ public class InfoApiController {
     @ResponseBody
     public String requestFollow(@RequestParam String followerIdx, @RequestParam String followingIdx) {
         try {
-            return infoService.requestFollow(followerIdx,followingIdx);
+            return String.valueOf(infoService.requestFollow(followerIdx,followingIdx));
         }catch (Exception e){
-            e.printStackTrace();
-            return "follow request fail";
+            return e.getMessage();
         }
     }
 
@@ -56,17 +55,20 @@ public class InfoApiController {
     @ResponseBody
     public String cancelFollow(@RequestParam String followerIdx, @RequestParam String followingIdx) {
         try {
-            return infoService.cancelFollow(followerIdx,followingIdx);
+            return String.valueOf(infoService.cancelFollow(followerIdx,followingIdx));
         }catch (Exception e){
-            e.printStackTrace();
-            return "follow cancel fail";
+            return e.getMessage();
         }
     }
 
     @GetMapping(value = "/follow/status")
     @ResponseBody
-    public int getFollowStatus(@RequestParam String userId, @RequestParam String followId) {
-        return infoService.getFollowStatus(userId, followId);
+    public String getFollowStatus(@RequestParam String userId, @RequestParam String followId) {
+        try{
+            return String.valueOf(infoService.getFollowStatus(userId, followId));
+        }catch (Exception e){
+            return e.getMessage();
+        }
     }
 
     @GetMapping(value = "/liked")
