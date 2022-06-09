@@ -5,6 +5,7 @@ import com.kks.demo.dto.Follow;
 import com.kks.demo.dto.MyRecord;
 import com.kks.demo.dto.login.UserResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -102,6 +103,20 @@ public class InfoRepository {
         Object[] deleteParams = new Object[]{followerIdx, followingIdx};
         this.jdbcTemplate.update(deleteQuery, deleteParams);
         return 1;
+    }
+
+    /**
+     * 팔로우 여부
+     * */
+    public int getFollowStatus(String userId, String followId){
+        try{
+            return this.jdbcTemplate.queryForObject("select count(*) "
+                            + "from Follow "
+                            + "where followerIdx = " + userId + " AND followingIdx = " + followId,
+                    Integer.class);
+        }catch (EmptyResultDataAccessException e){
+            return 0;
+        }
     }
 
 

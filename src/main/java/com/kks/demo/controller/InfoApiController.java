@@ -63,6 +63,12 @@ public class InfoApiController {
         }
     }
 
+    @GetMapping(value = "/follow/status")
+    @ResponseBody
+    public int getFollowStatus(@RequestParam String userId, @RequestParam String followId) {
+        return infoService.getFollowStatus(userId, followId);
+    }
+
     @GetMapping(value = "/liked")
     @ResponseBody
     public List<MyRecord> getRecordLikeList(@RequestParam String userId) {

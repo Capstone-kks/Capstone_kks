@@ -23,7 +23,6 @@ public class LikeRepository {
     }
 
     public int getRecordLikedCnt(int recordIdx){
-        String status = "ACTIVE";
         try{
             return this.jdbcTemplate.queryForObject("select count(*) "
                             + "from RecordLike "
